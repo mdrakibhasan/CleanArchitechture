@@ -1,8 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Pos.Core;
 using Pos.Core.Mapper;
 using Pos.Infrustructure;
+using Pos.Repository;
+using Pos.Shared.GenericRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +25,12 @@ namespace Pos.IoC.Configuration
 
             services.AddAutoMapper(typeof(CommonMapper).Assembly);
 
+             services.AddTransient<IProductRepository, ProductRepository>();
+            // services.Scan(s => s.FromAssemblyOf<IApplication>().AddClasses(c => c.AssignableTo<IApplication>()).AsSelfWithInterfaces().WithTransientLifetime());
 
-            //	services.AddMediatR(options => options.RegisterServicesFromAssemblies(typeof(ICore).Assembly));
+            services.AddValidatorsFromAssembly(typeof(ICore).Assembly);
+
+            services.AddMediatR(options => options.RegisterServicesFromAssemblies(typeof(ICore).Assembly));
 
             //services.AddMediatR(cfg =>
             //{

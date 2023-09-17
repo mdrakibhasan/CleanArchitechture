@@ -4,4 +4,10 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrustructure\Pos.Infrustructure\Pos.Infrustructure.csproj" />
+    <ProjectReference Include="..\..\Infrustructure\Pos.Service.Model\Pos.Service.Model.csproj" />
+    <ProjectReference Include="..\Pos.Model\Pos.Model.csproj" />
+  </ItemGroup>
+
 </Project>

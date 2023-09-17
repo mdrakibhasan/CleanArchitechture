@@ -13,7 +13,7 @@ namespace Pos.Core.Mapper
     {
         public CommonMapper()
         {
-            CreateMap<VmProduct, Product>().ReverseMap();
+            CreateMap<VmProduct, Model.Product>().ReverseMap();
         }
     }
 }

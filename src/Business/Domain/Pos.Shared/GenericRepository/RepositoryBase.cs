@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Pos.Shared.GenericRepository
 {
     public  abstract class RepositoryBase<TEntity, IModel, T> : IRepository<TEntity, IModel, T>
-    where TEntity : class, IEntity, new()
+    where TEntity : class, IEntity
     where IModel : class, IVm
     where T : IEquatable<T>                        
 
