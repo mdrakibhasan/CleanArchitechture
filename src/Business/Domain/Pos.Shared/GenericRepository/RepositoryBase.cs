@@ -27,7 +27,8 @@ namespace Pos.Shared.GenericRepository
         }
         public async Task<IModel> Add(TEntity entity)
         {
-            DbSet.Add(entity);
+            
+            DbSet.Add(entity);           
             await _dbContext.SaveChangesAsync();
             return _mapper.Map<IModel>(entity);
         }

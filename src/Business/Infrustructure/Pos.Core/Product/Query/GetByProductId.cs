@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace Pos.Core.Product.Query
 {
-    public record  GetById(int id):IRequest<VmProduct>;
+    public record  GetByProductId(int id):IRequest<VmProduct>;
     
 
     
-    public class GetByIdHandler : IRequestHandler<GetById, VmProduct>
+    public class GetByIdHandler : IRequestHandler<GetByProductId, VmProduct>
     {
 
         private readonly IProductRepository _productRepository;
@@ -30,7 +30,7 @@ namespace Pos.Core.Product.Query
             _mapper = mapper;
             _validationRules = validationRules;
         }
-        public async Task<VmProduct> Handle(GetById request, CancellationToken cancellationToken)
+        public async Task<VmProduct> Handle(GetByProductId request, CancellationToken cancellationToken)
         {
 
             var validation = await _validationRules.ValidateAsync(request, cancellationToken);
@@ -44,7 +44,7 @@ namespace Pos.Core.Product.Query
 
         }
 
-        public class GetStateByIdValtion : AbstractValidator<GetById>
+        public class GetStateByIdValtion : AbstractValidator<GetByProductId>
         {
             public GetStateByIdValtion()
             {

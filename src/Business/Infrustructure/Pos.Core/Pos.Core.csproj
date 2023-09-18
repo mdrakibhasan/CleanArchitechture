@@ -16,9 +16,5 @@
 	  <ProjectReference Include="..\..\Domain\Pos.Repository\Pos.Repository.csproj" />
 	  <ProjectReference Include="..\Pos.Service.Model\Pos.Service.Model.csproj" />
 	</ItemGroup>
-	
-	<ItemGroup>
-	  <Folder Include="Product\Command\" />
-	</ItemGroup>
 
 </Project>
