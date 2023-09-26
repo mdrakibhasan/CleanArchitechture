@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Pos.Core.Product.Command
 {
    
-    public record DeleteProduct(int id) : IRequest<VmProduct>;
+    public record DeleteProduct( int id) : IRequest<VmProduct>;
     public class DeleteProductHandler 
     {
         private readonly IProductRepository _Repository;
