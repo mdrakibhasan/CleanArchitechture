@@ -34,7 +34,7 @@ namespace Pos.Core.Product.Command
                 throw new ValidationException(validation.Errors);
             }
 
-            var result = await _Repository.Add(_mapper.Map<Model.Product>(request.aVmProduct));
+            var result = await _Repository.Update(request.id,_mapper.Map<Model.Product>(request.aVmProduct));
 
             return result;
         }

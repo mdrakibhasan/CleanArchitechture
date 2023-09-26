@@ -66,5 +66,17 @@ namespace Pos.BackEnd.Controllers
         {
             return await _mediator.Send(new UpdateProduct(aVmProduct,id));
         }
+        [HttpDelete]
+        [Route("[action]")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
+        public async Task<IActionResult> Delete([FromBody] VmProduct aVmProduct, int id)
+        {
+            var ddd =await _mediator.Send(new DeleteProduct( id));
+            return Ok(1);
+        }
     }
 }
