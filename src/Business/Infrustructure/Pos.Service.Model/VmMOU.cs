@@ -5,12 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Pos.Model
+namespace Pos.Service.Model
 {
-    public class Category : BaseEntity, IEntity
+    public class VmMOU:IVm
     {
         public int Id { get; set; }
-        public string CategoryName { get; set; }
-
+        public string UniteName { get; set; }
     }
 }

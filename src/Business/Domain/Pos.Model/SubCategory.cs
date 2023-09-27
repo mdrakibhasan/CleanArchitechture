@@ -8,7 +8,7 @@ namespace Pos.Model
 {
     public class SubCategory : BaseEntity, IEntity
     {
-        public string CategoryName
+        public string SubCategoryName
         {
             get; set;
         }

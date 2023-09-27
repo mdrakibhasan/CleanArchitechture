@@ -8,7 +8,7 @@ namespace Pos.Model
 {
     public class Color : BaseEntity, IEntity
     {
-        public string CategoryName
+        public string ColorName
         {
             get; set;
         }    }

@@ -8,7 +8,7 @@ namespace Pos.Model
 {
     public class Size : BaseEntity, IEntity
     {
-        public string CategoryName
+        public string SizeName
         {
             get; set;
         }    }
