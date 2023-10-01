@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using Pos.Infrustructure;
+using Pos.Model;
+using Pos.Repository.IRepository;
+using Pos.Service.Model;
+using Pos.Shared.GenericRepository;
+
 
 namespace Pos.Repository.Repository
 {
-    public class SubCategoryRepository
+    public class SubCategoryRepository: RepositoryBase<SubCategory, VmSubcategory, int>, ISubCategoryRepository
     {
+
+        public SubCategoryRepository(IMapper mapper, PosDbContext dbContext) : base(mapper, dbContext)
+        {
+
+        }
     }
 }

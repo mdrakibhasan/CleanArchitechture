@@ -16,5 +16,17 @@
 	  <ProjectReference Include="..\..\Domain\Pos.Repository\Pos.Repository.csproj" />
 	  <ProjectReference Include="..\Pos.Service.Model\Pos.Service.Model.csproj" />
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="Category\Query\" />
+	  <Folder Include="Color\Command\" />
+	  <Folder Include="Color\Query\" />
+	  <Folder Include="MOU\Command\" />
+	  <Folder Include="MOU\Query\" />
+	  <Folder Include="Size\Command\" />
+	  <Folder Include="Size\Query\" />
+	  <Folder Include="SubCategory\Command\" />
+	  <Folder Include="SubCategory\Query\" />
+	</ItemGroup>
 
 </Project>

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Pos.Repository.IRepository
 {
-    public class IColorRepository : IRepository<Color, VmColor, int>
+    public interface IColorRepository : IRepository<Color, VmColor, int>
     {
     }
 }

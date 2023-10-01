@@ -6,6 +6,8 @@ using Pos.Core;
 using Pos.Core.Mapper;
 using Pos.Infrustructure;
 using Pos.Repository;
+using Pos.Repository.IRepository;
+using Pos.Repository.Repository;
 using Pos.Shared.GenericRepository;
 using System;
 using System.Collections.Generic;
@@ -26,6 +28,11 @@ namespace Pos.IoC.Configuration
             services.AddAutoMapper(typeof(CommonMapper).Assembly);
 
              services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<ISubCategoryRepository, SubCategoryRepository>();
+            services.AddTransient<IColorRepository, ColorRepository>();
+            services.AddTransient<ISizeRepository, SizeRepository>();
+            services.AddTransient<IMUORepository, MOURepository>();
             // services.Scan(s => s.FromAssemblyOf<IApplication>().AddClasses(c => c.AssignableTo<IApplication>()).AsSelfWithInterfaces().WithTransientLifetime());
 
             services.AddValidatorsFromAssembly(typeof(ICore).Assembly);

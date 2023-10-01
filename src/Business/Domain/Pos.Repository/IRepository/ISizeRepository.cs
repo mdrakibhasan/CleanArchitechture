@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Pos.Repository.IRepository
 {
-    interface ISizeRepository : IRepository<Size, VmSize, int>
+    public interface ISizeRepository : IRepository<Size, VmSize, int>
     {
     }
 }
