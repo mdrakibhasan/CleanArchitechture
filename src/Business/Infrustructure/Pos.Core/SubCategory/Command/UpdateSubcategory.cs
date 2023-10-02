@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Pos.Core.Product.Command
+namespace Pos.Core.Command
 {
     public record UpdateSubcategory(VmSubcategory aVmSubcategory, int id):IRequest<VmSubcategory>;
     public class UpdateSubcategoryHandler : IRequestHandler<UpdateSubcategory, VmSubcategory>

@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Pos.Core.Product.Command
+namespace Pos.Core.Command
 {
     public record UpdateColor(VmColor aVmColor,int id):IRequest<VmColor>;
     public class UpdateColorHandler : IRequestHandler<UpdateColor, VmColor>

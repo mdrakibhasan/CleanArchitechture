@@ -11,7 +11,7 @@ using System.Threading;
     
 using System.Threading.Tasks;
 
-namespace Pos.Core.Product.Query
+namespace Pos.Core.Query
 {
     public record GetBySizeId(int id):IRequest<VmSize>;
     

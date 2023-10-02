@@ -9,7 +9,7 @@ using Pos.Service.Model;
 using System.Threading;
 using Pos.Repository.IRepository;
 
-namespace Pos.Core.Product.Query
+namespace Pos.Core.Query
 {
     public record GetByColorAll() : IRequest<IEnumerable<VmColor>>;
     public class GetColorAllHandler : IRequestHandler<GetByColorAll, IEnumerable<VmColor>>

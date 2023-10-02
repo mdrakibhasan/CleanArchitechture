@@ -9,7 +9,7 @@ using Pos.Service.Model;
 using System.Threading;
 using Pos.Repository.IRepository;
 
-namespace Pos.Core.Product.Query
+namespace Pos.Core.Query
 {
     public record GetBySubCategoryAll() : IRequest<IEnumerable<VmSubcategory>>;
     public class GetSubcategoryAllHandler : IRequestHandler<GetBySubCategoryAll, IEnumerable<VmSubcategory>>

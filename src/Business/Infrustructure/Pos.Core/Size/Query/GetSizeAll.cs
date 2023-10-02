@@ -9,7 +9,7 @@ using Pos.Service.Model;
 using System.Threading;
 using Pos.Repository.IRepository;
 
-namespace Pos.Core.Product.Query
+namespace Pos.Core.Query
 {
     public record GetSizeAll() : IRequest<IEnumerable<VmSize>>;
     public class GetSizeAllHandler : IRequestHandler<GetSizeAll, IEnumerable<VmSize>>

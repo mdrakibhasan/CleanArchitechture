@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Pos.Core.Product.Command
+namespace Pos.Core.Command
 {
     public record UpdateCategory(VmCategory aVmCategory,int id):IRequest<VmCategory>;
     public class UpdateCategoryHandler : IRequestHandler<UpdateCategory, VmCategory>

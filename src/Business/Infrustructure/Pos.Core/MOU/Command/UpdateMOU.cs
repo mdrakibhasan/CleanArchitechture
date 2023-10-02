@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Pos.Core.Product.Command
+namespace Pos.Core.Command
 {
     public record UpdateMOU(VmMOU aVmMOU,int id):IRequest<VmMOU>;
     public class UpdateMOUHandler : IRequestHandler<UpdateMOU, VmMOU>

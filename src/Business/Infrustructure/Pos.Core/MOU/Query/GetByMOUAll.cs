@@ -9,7 +9,7 @@ using Pos.Service.Model;
 using System.Threading;
 using Pos.Repository.IRepository;
 
-namespace Pos.Core.Product.Query
+namespace Pos.Core.Query
 {
     public record GetByMOUAll() : IRequest<IEnumerable<VmMOU>>;
     public class GetMOUAllHandler : IRequestHandler<GetByMOUAll, IEnumerable<VmMOU>>
