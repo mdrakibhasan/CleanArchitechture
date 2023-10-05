@@ -8,19 +8,14 @@ using System.Threading.Tasks;
 
 namespace Pos.Model
 {
-    public class Product:BaseEntity,IEntity
+    public class PurchaseDtl : BaseEntity, IEntity
     {
-        public string ProductName { get; set; }
-        public string ProductDescription { get; set; }
-        public string Fabrics { get; set; }
-        public string BarCode { get; set; }
-
-        public string DesignKey { get; set; }
-        public decimal CostPrice { get; set; }
-        public decimal SalePrice { get; set; }
-        public int ItemId { get; set; }
+        public int PurchaseMstId { get; set; }
         [JsonIgnore]
-        public Item Item { get; set; }
+        public PurchaseMst PurchaseMst { get; set; }
+        public int? ProductId { get; set; }
+        [JsonIgnore]
+        public Product? Product { get; set; }
         public int? CategoryId { get; set; }
         [JsonIgnore]
         public Category? Category { get; set; }
@@ -33,6 +28,11 @@ namespace Pos.Model
         public int? SubCategoryId { get; set; }
         [JsonIgnore]
         public SubCategory? SubCategory { get; set; }
-
+        public decimal Quantity { get; set; }
+        public decimal Rate { get; set; }
+        public string BarCode { get; set; }
+        public string DesignKey { get; set; }
+        public decimal? Discount { get; set; }
+        public decimal CostPrice { get; set; }
     }
 }

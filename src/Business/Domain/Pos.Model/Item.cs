@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Pos.Model
 {
-    public class Category : BaseEntity, IEntity
+    public class Item : BaseEntity, IEntity
     {
-        
-        public string CategoryName { get; set; }
+        public string Name { get; set; }
 
     }
 }

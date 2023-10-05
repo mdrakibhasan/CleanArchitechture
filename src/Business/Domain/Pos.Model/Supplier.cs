@@ -1,0 +1,16 @@
+﻿using Pos.Shared;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Pos.Model
+{
+    public class Supplier : BaseEntity, IEntity
+    {
+        public string Name{ get; set; }
+        public string MobileNo { get; set; }
+        public string Email { get; set; }
+    }
+}
