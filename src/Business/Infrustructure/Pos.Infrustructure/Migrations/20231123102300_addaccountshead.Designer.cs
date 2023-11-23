@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pos.Infrustructure;
 
 namespace Pos.Infrustructure.Migrations
 {
     [DbContext(typeof(PosDbContext))]
-    partial class PosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231123102300_addaccountshead")]
+    partial class addaccountshead
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,7 +28,11 @@ namespace Pos.Infrustructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccountsHeadTypeId")
+                    b.Property<string>("AccountsHeadTypeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("AccountsHeadTypeId1")
                         .HasColumnType("int");
 
                     b.Property<string>("Code")
@@ -71,7 +77,7 @@ namespace Pos.Infrustructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountsHeadTypeId");
+                    b.HasIndex("AccountsHeadTypeId1");
 
                     b.HasIndex("RootId");
 
@@ -205,7 +211,7 @@ namespace Pos.Infrustructure.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 16, 24, 34, 474, DateTimeKind.Unspecified).AddTicks(4160), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 16, 22, 59, 535, DateTimeKind.Unspecified).AddTicks(8576), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             Name = "Apple",
                             Status = 1
@@ -213,7 +219,7 @@ namespace Pos.Infrustructure.Migrations
                         new
                         {
                             Id = 2,
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 16, 24, 34, 476, DateTimeKind.Unspecified).AddTicks(1641), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 16, 22, 59, 537, DateTimeKind.Unspecified).AddTicks(6772), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             Status = 1
                         });
@@ -338,7 +344,7 @@ namespace Pos.Infrustructure.Migrations
                         {
                             Id = 1,
                             BarCode = "0001",
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 16, 24, 34, 497, DateTimeKind.Unspecified).AddTicks(4216), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 16, 22, 59, 565, DateTimeKind.Unspecified).AddTicks(6805), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             ItemId = 1,
                             ProductName = "Apple",
@@ -348,7 +354,7 @@ namespace Pos.Infrustructure.Migrations
                         {
                             Id = 2,
                             BarCode = "0002",
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 16, 24, 34, 497, DateTimeKind.Unspecified).AddTicks(5123), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 16, 22, 59, 565, DateTimeKind.Unspecified).AddTicks(7578), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             ItemId = 2,
                             ProductName = "Mango",
@@ -420,9 +426,7 @@ namespace Pos.Infrustructure.Migrations
                 {
                     b.HasOne("Pos.Model.AccountsHeadType", "AccountsHeadType")
                         .WithMany()
-                        .HasForeignKey("AccountsHeadTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AccountsHeadTypeId1");
 
                     b.HasOne("Pos.Model.AccountsHead", "Root")
                         .WithMany()
