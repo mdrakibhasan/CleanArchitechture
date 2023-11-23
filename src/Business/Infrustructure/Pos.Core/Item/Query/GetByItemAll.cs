@@ -11,18 +11,17 @@ using Pos.Repository.IRepository;
 
 namespace Pos.Core.Query
 {
-    public record GetByMOUAll() : IRequest<IEnumerable<VmMOU>>;
-    public class GetMOUAllHandler : IRequestHandler<GetByMOUAll, IEnumerable<VmMOU>>
+    public record GetByItemAll() : IRequest<IEnumerable<VmItem>>;
+    public class GetAllHandler:IRequestHandler<GetByItemAll,IEnumerable<VmItem>>
     {
-		private readonly IMUORepository _sateRepository;
-		public GetMOUAllHandler(IMUORepository sateRepository)
+		private readonly IItemRepository _sateRepository;
+		public GetAllHandler(IItemRepository sateRepository)
 		{
 			_sateRepository = sateRepository;
 		}
-		public async Task<IEnumerable<VmMOU>> Handle(GetByMOUAll request, CancellationToken cancellationToken)
+		public async Task<IEnumerable<VmItem>> Handle(GetByItemAll request, CancellationToken cancellationToken)
 		{
 			var result = await _sateRepository.GetList();
-			
 			return result;
 		}
 	}

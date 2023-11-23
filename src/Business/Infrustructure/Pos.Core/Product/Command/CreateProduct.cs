@@ -32,7 +32,7 @@ namespace Pos.Core.Product.Command
             {
                 throw new ValidationException(validation.Errors);
             }
-            
+            var data = _mapper.Map<Model.Product>(request.aVmProduct);
             var result = await _Repository.Add(_mapper.Map<Model.Product>(request.aVmProduct));
            
             return result;

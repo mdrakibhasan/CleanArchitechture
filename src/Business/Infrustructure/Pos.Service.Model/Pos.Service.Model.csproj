@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Domain\Pos.Model\Pos.Model.csproj" />
     <ProjectReference Include="..\..\Domain\Pos.Shared\Pos.Shared.csproj" />
 	  <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
   </ItemGroup>

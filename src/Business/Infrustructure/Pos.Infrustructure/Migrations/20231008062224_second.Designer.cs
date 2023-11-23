@@ -3,55 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pos.Infrustructure;
 
 namespace Pos.Infrustructure.Migrations
 {
     [DbContext(typeof(PosDbContext))]
-    partial class PosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231008062224_second")]
+    partial class second
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Pos.Model.AccountsHeadType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTimeOffset>("Created")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1)");
-
-                    b.Property<DateTimeOffset?>("LastModified")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AccountsHeadTypes");
-                });
 
             modelBuilder.Entity("Pos.Model.Category", b =>
                 {
@@ -146,7 +114,7 @@ namespace Pos.Infrustructure.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 15, 38, 21, 902, DateTimeKind.Unspecified).AddTicks(1553), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 10, 8, 12, 22, 23, 532, DateTimeKind.Unspecified).AddTicks(1521), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             Name = "Apple",
                             Status = 1
@@ -154,43 +122,10 @@ namespace Pos.Infrustructure.Migrations
                         new
                         {
                             Id = 2,
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 15, 38, 21, 903, DateTimeKind.Unspecified).AddTicks(9474), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 10, 8, 12, 22, 23, 534, DateTimeKind.Unspecified).AddTicks(661), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             Status = 1
                         });
-                });
-
-            modelBuilder.Entity("Pos.Model.MOU", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTimeOffset>("Created")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("LastModified")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UniteName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Value")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MOU");
                 });
 
             modelBuilder.Entity("Pos.Model.Product", b =>
@@ -201,8 +136,7 @@ namespace Pos.Infrustructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("BarCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
@@ -234,9 +168,6 @@ namespace Pos.Infrustructure.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MOUId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ProductDescription")
                         .HasColumnType("nvarchar(max)");
 
@@ -257,16 +188,11 @@ namespace Pos.Infrustructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BarCode")
-                        .IsUnique();
-
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("ColorId");
 
                     b.HasIndex("ItemId");
-
-                    b.HasIndex("MOUId");
 
                     b.HasIndex("SizeId");
 
@@ -278,8 +204,7 @@ namespace Pos.Infrustructure.Migrations
                         new
                         {
                             Id = 1,
-                            BarCode = "0001",
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 15, 38, 22, 25, DateTimeKind.Unspecified).AddTicks(6988), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 10, 8, 12, 22, 23, 638, DateTimeKind.Unspecified).AddTicks(5134), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             ItemId = 1,
                             ProductName = "Apple",
@@ -288,8 +213,7 @@ namespace Pos.Infrustructure.Migrations
                         new
                         {
                             Id = 2,
-                            BarCode = "0002",
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 15, 38, 22, 25, DateTimeKind.Unspecified).AddTicks(7782), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 10, 8, 12, 22, 23, 638, DateTimeKind.Unspecified).AddTicks(5886), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             ItemId = 2,
                             ProductName = "Mango",
@@ -373,10 +297,6 @@ namespace Pos.Infrustructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Pos.Model.MOU", "MOU")
-                        .WithMany()
-                        .HasForeignKey("MOUId");
-
                     b.HasOne("Pos.Model.Size", "Size")
                         .WithMany()
                         .HasForeignKey("SizeId");
@@ -390,8 +310,6 @@ namespace Pos.Infrustructure.Migrations
                     b.Navigation("Color");
 
                     b.Navigation("Item");
-
-                    b.Navigation("MOU");
 
                     b.Navigation("Size");
 

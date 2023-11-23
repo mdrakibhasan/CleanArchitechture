@@ -17,9 +17,11 @@ namespace Pos.Infrustructure.Persistance.Configuration
             builder.ToTable("Products");
 
             builder.HasKey(x => x.Id);
+            builder.HasIndex(x => x.BarCode).IsUnique();
+            builder.Property(a => a.BarCode).IsRequired();
             builder.HasData(
 
-                new  { Id = 1, ProductName = "Apple",CreatedBy="1",Created=DateTimeOffset.Now,Status=EntityStatus.Created},new { Id = 2, ProductName = "Mango", Created = DateTimeOffset.Now, CreatedBy = "1",Status = EntityStatus.Created}
+                new  { Id = 1, ProductName = "Apple", BarCode="0001", CreatedBy="1", ItemId=1, Created=DateTimeOffset.Now,Status=EntityStatus.Created},new { Id = 2, ProductName = "Mango", BarCode = "0002", ItemId = 2, Created = DateTimeOffset.Now, CreatedBy = "1",Status = EntityStatus.Created}
 
 
 

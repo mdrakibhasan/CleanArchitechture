@@ -19,6 +19,9 @@ namespace Pos.Core.Mapper
             CreateMap<VmSubcategory, Model.SubCategory>().ReverseMap();
             CreateMap<VmColor, Model.Color>().ReverseMap();
             CreateMap<VmMOU, Model.MOU>().ReverseMap();
+            CreateMap<VmSupplier, Model.Supplier>().ReverseMap();
+            CreateMap<VmItem, Model.Item>().ReverseMap();
+            CreateMap<VmAccountsHeadType, Model.AccountsHeadType>().ReverseMap();
         }
     }
 }

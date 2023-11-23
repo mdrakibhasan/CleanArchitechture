@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Pos.Core;
 using Pos.Core.Mapper;
 using Pos.Infrustructure;
+using Pos.IRepository;
 using Pos.Repository;
 using Pos.Repository.IRepository;
 using Pos.Repository.Repository;
@@ -33,6 +34,9 @@ namespace Pos.IoC.Configuration
             services.AddTransient<IColorRepository, ColorRepository>();
             services.AddTransient<ISizeRepository, SizeRepository>();
             services.AddTransient<IMUORepository, MOURepository>();
+            services.AddTransient<ISupplierRepository, SupplierRepository>();
+            services.AddTransient<IItemRepository, ItemRepository>();
+            services.AddTransient<IAccountsHeadTypeRepository, AccountsHeadTypeRepository>();
             // services.Scan(s => s.FromAssemblyOf<IApplication>().AddClasses(c => c.AssignableTo<IApplication>()).AsSelfWithInterfaces().WithTransientLifetime());
 
             services.AddValidatorsFromAssembly(typeof(ICore).Assembly);

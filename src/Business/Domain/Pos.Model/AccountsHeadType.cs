@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 namespace Pos.Model
 {
-    public class Color : BaseEntity, IEntity
+    public class AccountsHeadType: BaseEntity, IEntity
     {
-        public string ColorName
-        {
-            get; set;
-        }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public char Key { get; set; }
     }
 }

@@ -41,6 +41,7 @@ namespace Pos.Shared.GenericRepository
                 throw new Exception("Id Not Match");
             }
             _dbContext.Remove(entity);
+            _dbContext.SaveChangesAsync();
         }
 
         public async Task<IModel> GetById(T id)

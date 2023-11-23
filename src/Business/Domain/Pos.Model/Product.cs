@@ -14,10 +14,9 @@ namespace Pos.Model
         public string ProductDescription { get; set; }
         public string Fabrics { get; set; }
         public string BarCode { get; set; }
-
         public string DesignKey { get; set; }
-        public decimal CostPrice { get; set; }
-        public decimal SalePrice { get; set; }
+        public decimal? CostPrice { get; set; }
+        public decimal? SalePrice { get; set; }
         public int ItemId { get; set; }
         [JsonIgnore]
         public Item Item { get; set; }
@@ -30,6 +29,9 @@ namespace Pos.Model
         public int? SizeId { get; set; }
         [JsonIgnore]
         public Size? Size { get; set; }
+        public int? MOUId { get; set; }
+        [JsonIgnore]
+        public MOU? MOU { get; set; }
         public int? SubCategoryId { get; set; }
         [JsonIgnore]
         public SubCategory? SubCategory { get; set; }

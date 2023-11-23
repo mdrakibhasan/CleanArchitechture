@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace Pos.Model
+
+namespace Pos.Service.Model
 {
-    public class Color : BaseEntity, IEntity
+    public class VmItem:IVm
     {
-        public string ColorName
-        {
-            get; set;
-        }
+        public string Name { get; set; }
+        public int Id { get; set; }
     }
 }
