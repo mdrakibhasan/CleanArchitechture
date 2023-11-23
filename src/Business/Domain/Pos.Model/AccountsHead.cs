@@ -25,5 +25,6 @@ namespace Pos.Model
         public int AccountsHeadTypeId { get; set; }
         [JsonIgnore]
         public AccountsHeadType AccountsHeadType { get; set; }
+        public List<AccountsHead> HeadLeaf { get; set; }
     }
 }

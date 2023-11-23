@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pos.Infrustructure;
 
 namespace Pos.Infrustructure.Migrations
 {
     [DbContext(typeof(PosDbContext))]
-    partial class PosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231123104341_addaccountshead3")]
+    partial class addaccountshead3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,6 +87,9 @@ namespace Pos.Infrustructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AccountsHeadId")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset");
 
@@ -108,6 +113,8 @@ namespace Pos.Infrustructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountsHeadId");
 
                     b.ToTable("AccountsHeadTypes");
                 });
@@ -205,7 +212,7 @@ namespace Pos.Infrustructure.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 16, 46, 40, 354, DateTimeKind.Unspecified).AddTicks(9587), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 16, 43, 41, 245, DateTimeKind.Unspecified).AddTicks(7795), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             Name = "Apple",
                             Status = 1
@@ -213,7 +220,7 @@ namespace Pos.Infrustructure.Migrations
                         new
                         {
                             Id = 2,
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 16, 46, 40, 357, DateTimeKind.Unspecified).AddTicks(1203), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 16, 43, 41, 247, DateTimeKind.Unspecified).AddTicks(5931), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             Status = 1
                         });
@@ -338,7 +345,7 @@ namespace Pos.Infrustructure.Migrations
                         {
                             Id = 1,
                             BarCode = "0001",
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 16, 46, 40, 382, DateTimeKind.Unspecified).AddTicks(5497), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 16, 43, 41, 268, DateTimeKind.Unspecified).AddTicks(7088), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             ItemId = 1,
                             ProductName = "Apple",
@@ -348,7 +355,7 @@ namespace Pos.Infrustructure.Migrations
                         {
                             Id = 2,
                             BarCode = "0002",
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 16, 46, 40, 382, DateTimeKind.Unspecified).AddTicks(6642), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 11, 23, 16, 43, 41, 268, DateTimeKind.Unspecified).AddTicks(7870), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             ItemId = 2,
                             ProductName = "Mango",
@@ -425,12 +432,19 @@ namespace Pos.Infrustructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Pos.Model.AccountsHead", "Root")
-                        .WithMany("HeadLeaf")
+                        .WithMany()
                         .HasForeignKey("RootId");
 
                     b.Navigation("AccountsHeadType");
 
                     b.Navigation("Root");
+                });
+
+            modelBuilder.Entity("Pos.Model.AccountsHeadType", b =>
+                {
+                    b.HasOne("Pos.Model.AccountsHead", null)
+                        .WithMany("HeadLeaf")
+                        .HasForeignKey("AccountsHeadId");
                 });
 
             modelBuilder.Entity("Pos.Model.Product", b =>
