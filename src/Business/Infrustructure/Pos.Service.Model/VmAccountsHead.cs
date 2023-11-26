@@ -26,6 +26,6 @@ namespace Pos.Service.Model
         public int AccountsHeadTypeId { get; set; }
         public string AccountsHeadTypeName { get; set; }
         public int Id { get; set; }
-        public List<AccountsHead> HeadLeaf { get; set; }
+        public List<VmAccountsHead> HeadLeaf { get; set; }
     }
 }
