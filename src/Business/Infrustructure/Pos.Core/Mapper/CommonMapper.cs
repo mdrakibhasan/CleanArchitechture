@@ -22,6 +22,7 @@ namespace Pos.Core.Mapper
             CreateMap<VmSupplier, Model.Supplier>().ReverseMap();
             CreateMap<VmItem, Model.Item>().ReverseMap();
             CreateMap<VmAccountsHeadType, Model.AccountsHeadType>().ReverseMap();
+            CreateMap<VmAccountsHead, Model.AccountsHead>().ReverseMap();
         }
     }
 }

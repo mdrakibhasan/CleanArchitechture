@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pos.Infrustructure;
 
 namespace Pos.Infrustructure.Migrations
 {
     [DbContext(typeof(PosDbContext))]
-    partial class PosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231126091848_accountsHead")]
+    partial class accountsHead
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,9 +34,6 @@ namespace Pos.Infrustructure.Migrations
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("datetimeoffset");
@@ -208,7 +207,7 @@ namespace Pos.Infrustructure.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 26, 15, 55, 49, 372, DateTimeKind.Unspecified).AddTicks(1094), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 11, 26, 15, 18, 47, 809, DateTimeKind.Unspecified).AddTicks(8894), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             Name = "Apple",
                             Status = 1
@@ -216,7 +215,7 @@ namespace Pos.Infrustructure.Migrations
                         new
                         {
                             Id = 2,
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 26, 15, 55, 49, 373, DateTimeKind.Unspecified).AddTicks(8903), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 11, 26, 15, 18, 47, 813, DateTimeKind.Unspecified).AddTicks(9705), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             Status = 1
                         });
@@ -341,7 +340,7 @@ namespace Pos.Infrustructure.Migrations
                         {
                             Id = 1,
                             BarCode = "0001",
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 26, 15, 55, 49, 395, DateTimeKind.Unspecified).AddTicks(2653), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 11, 26, 15, 18, 47, 833, DateTimeKind.Unspecified).AddTicks(9683), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             ItemId = 1,
                             ProductName = "Apple",
@@ -351,7 +350,7 @@ namespace Pos.Infrustructure.Migrations
                         {
                             Id = 2,
                             BarCode = "0002",
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 26, 15, 55, 49, 395, DateTimeKind.Unspecified).AddTicks(3443), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 11, 26, 15, 18, 47, 834, DateTimeKind.Unspecified).AddTicks(484), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             ItemId = 2,
                             ProductName = "Mango",

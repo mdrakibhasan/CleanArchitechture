@@ -16,7 +16,7 @@ namespace Pos.Infrustructure.Persistance.Configuration
             builder.ToTable("AccountsHeads");
 
             builder.HasKey(x => x.Id);
-            builder.Property(a => a.RootTLeaf).IsRequired();
+            builder.Property(a => a.RootLeaf).IsRequired();
             builder.Property(a => a.Code).IsRequired();
             builder.Property(a => a.HeadName).IsRequired();
             builder.Property(a => a.HeadType).IsRequired();

@@ -37,6 +37,7 @@ namespace Pos.IoC.Configuration
             services.AddTransient<ISupplierRepository, SupplierRepository>();
             services.AddTransient<IItemRepository, ItemRepository>();
             services.AddTransient<IAccountsHeadTypeRepository, AccountsHeadTypeRepository>();
+            services.AddTransient<IAccountsHeadRepository, AccountsHeadRepository>();
             // services.Scan(s => s.FromAssemblyOf<IApplication>().AddClasses(c => c.AssignableTo<IApplication>()).AsSelfWithInterfaces().WithTransientLifetime());
 
             services.AddValidatorsFromAssembly(typeof(ICore).Assembly);

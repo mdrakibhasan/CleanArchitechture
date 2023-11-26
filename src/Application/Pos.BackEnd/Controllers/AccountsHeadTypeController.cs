@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace Pos.BackEnd.Controllers
 {
+    [Route("api/AccountsHeadType")]
+    [ApiController]
     public class AccountsHeadTypeController : Controller
     {
         private readonly IMediator _mediator;
@@ -20,7 +22,7 @@ namespace Pos.BackEnd.Controllers
 
 
         
-        [HttpGet("[action]/{id}", Name = "GetById")]
+        [HttpGet("{id}", Name = "GetById")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -31,18 +33,17 @@ namespace Pos.BackEnd.Controllers
             return await _mediator.Send(new GetByAccountsHeadTypeId(id));
         }
         [HttpGet]
-        [Route("[action]")]
+        
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
         [ProducesResponseType(403)]
-        public async Task<IEnumerable<VmAccountsHeadType>> GetAll()
+        public async Task<IEnumerable<VmAccountsHeadType>> GetAccountsHeadTypeAll()
         {
             return await _mediator.Send(new GetByAccountsHeadTypeAll());
         }
         [HttpPost]
-        [Route("[action]")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -53,7 +54,6 @@ namespace Pos.BackEnd.Controllers
             return await _mediator.Send(new CreateAccountsHeadType(aVmAccountsHeadType));
         }
         [HttpPut]
-        [Route("[action]")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -64,7 +64,6 @@ namespace Pos.BackEnd.Controllers
             return await _mediator.Send(new UpdateAccountsHeadType(aVmAccountsHeadType, id));
         }
         [HttpDelete]
-        [Route("[action]")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Pos.Model;
 using System;
 
 namespace Pos.Infrustructure
@@ -10,8 +11,9 @@ namespace Pos.Infrustructure
 
 
 		}
+        public DbSet<AccountsHead> AccountsHeads { get; set; }
 
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.ApplyConfigurationsFromAssembly(typeof(PosDbContext).Assembly);
 		}

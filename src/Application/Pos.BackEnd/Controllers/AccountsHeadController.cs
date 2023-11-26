@@ -1,38 +1,36 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Pos.Core.Product.Command;
-using Pos.Core.Product.Query;
+using Pos.Core.AccountsHead.Command;
+using Pos.Core.Command;
+using Pos.Core.Query;
 using Pos.Service.Model;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Pos.BackEnd.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/AccountsHead")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class AccountsHeadController : Controller
     {
         private readonly IMediator _mediator;
-        public ProductController(IMediator mediator)
+        public AccountsHeadController(IMediator mediator)
         {
             _mediator = mediator;
-                
+
         }
 
 
-       
-        [HttpGet("{id}", Name = "GetProduct")]
+
+        [HttpGet("{id}", Name = "GetByAccountsHeadId")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
         [ProducesResponseType(403)]
-        public async Task<ActionResult<VmProduct>> GetProduct(int id)
+        public async Task<ActionResult<VmAccountsHead>> GetByAccountsHeadId(int id)
         {
-            return await _mediator.Send(new GetByProductId(id));
+            return await _mediator.Send(new GetByAccountsHeadId(id));
         }
         [HttpGet]
         [ProducesResponseType(200)]
@@ -40,9 +38,9 @@ namespace Pos.BackEnd.Controllers
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
         [ProducesResponseType(403)]
-        public async Task<IEnumerable<VmProduct>> GetProductAll()
+        public async Task<IEnumerable<VmAccountsHead>> GetAll()
         {
-            return await _mediator.Send(new GetByProductAll());
+            return await _mediator.Send(new GetByAccountsHeadAll());
         }
         [HttpPost]
         [ProducesResponseType(200)]
@@ -50,9 +48,9 @@ namespace Pos.BackEnd.Controllers
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
         [ProducesResponseType(403)]
-        public async Task<ActionResult<VmProduct>> Post([FromBody] VmProduct aVmProduct)
+        public async Task<ActionResult<VmAccountsHead>> Post([FromBody] VmAccountsHead aVmAccountsHead)
         {
-            return await _mediator.Send(new CreateProduct(aVmProduct));
+            return await _mediator.Send(new CreateAccountsHead(aVmAccountsHead));
         }
         [HttpPut]
         [ProducesResponseType(200)]
@@ -60,9 +58,9 @@ namespace Pos.BackEnd.Controllers
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
         [ProducesResponseType(403)]
-        public async Task<ActionResult<VmProduct>> Put([FromBody] VmProduct aVmProduct,int id)
+        public async Task<ActionResult<VmAccountsHead>> Put([FromBody] VmAccountsHead aVmAccountsHead, int id)
         {
-            return await _mediator.Send(new UpdateProduct(aVmProduct,id));
+            return await _mediator.Send(new UpdateAccountsHead(aVmAccountsHead, id));
         }
         [HttpDelete]
         [ProducesResponseType(200)]
@@ -70,9 +68,9 @@ namespace Pos.BackEnd.Controllers
         [ProducesResponseType(404)]
         [ProducesResponseType(401)]
         [ProducesResponseType(403)]
-        public async Task<IActionResult> Delete([FromBody] VmProduct aVmProduct, int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var ddd =await _mediator.Send(new DeleteProduct( id));
+            var ddd = await _mediator.Send(new DeleteAccountsHead(id));
             return Ok(1);
         }
     }
