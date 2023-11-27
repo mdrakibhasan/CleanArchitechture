@@ -11,6 +11,6 @@ namespace Pos.Repository.IRepository
 {
     public interface IAccountsHeadRepository : IRepository<AccountsHead, VmAccountsHead, int>
     {
-        Task<List<VmAccountsHead>> GetAccountsType();
+        Task<IEnumerable<VmAccountsHead>> GetAccountsType();
     }
 }

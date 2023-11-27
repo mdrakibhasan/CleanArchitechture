@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Pos.Infrustructure.Migrations;
 
 namespace Pos.Repository.Repository
 {
@@ -20,7 +21,7 @@ namespace Pos.Repository.Repository
     {
         private readonly IMapper _mapper;
         private readonly PosDbContext _dbContext;
-        List<VmAccountsHead> _vmAccountsHeads = new List<VmAccountsHead>();
+       
         public AccountsHeadRepository(IMapper mapper, PosDbContext dbContext) : base(mapper, dbContext)
         {
             _dbContext = dbContext;
@@ -31,39 +32,40 @@ namespace Pos.Repository.Repository
 
 
 
-        public async Task<List<VmAccountsHead>> GetAccountsType()
+        public async Task<IEnumerable<VmAccountsHead>> GetAccountsType()
         {
 
+            var Data =  _dbContext.AccountsHeads.Include(a => a.HeadLeaf).Where(a=>a.RootId==null).AsAsyncEnumerable();
+            var   _vmAccountsHeads = _mapper.Map<IEnumerable<VmAccountsHead>>(Data);
+            foreach (var data in _vmAccountsHeads)
+            {     
+                if (data.RootLeaf != "L")
+                {
+                    data.HeadLeaf = await GetAccountsTypeLeafList(data);
+                }
 
-            var Data = await _dbContext.AccountsHeads.Include(a => a.HeadLeaf).ToListAsync();
-            _vmAccountsHeads = _mapper.Map<List<VmAccountsHead>>(Data);
-
-
-            return _mapper.Map<List<VmAccountsHead>>(_vmAccountsHeads);
+            }
+            return _vmAccountsHeads;
         }
-
+        // Call Back Function for Accounts Head > Child List
         public async Task<List<VmAccountsHead>> GetAccountsTypeLeafList(VmAccountsHead aVmAccountsHead)
         {
             if (aVmAccountsHead.HeadLeaf.Count > 0)
             {
                 foreach (var data in aVmAccountsHead.HeadLeaf)
                 {
-                    var Datarec = await _dbContext.AccountsHeads.Include(a => a.HeadLeaf).ToListAsync();
-                    var datavm = _mapper.Map<List<VmAccountsHead>>(Datarec);
-                    foreach (VmAccountsHead data2 in datavm)
+                    if (data.RootLeaf != "L")
                     {
-                        data2.HeadLeaf = await GetAccountsTypeLeafList(data2);
+                        var Datarec = await _dbContext.AccountsHeads.Where(a => a.RootId == data.Id).Include(a => a.HeadLeaf).ToListAsync();
+                        var datavm = _mapper.Map<List<VmAccountsHead>>(Datarec);
+                        foreach (VmAccountsHead data2 in datavm)
+                        {
+                            data2.HeadLeaf = await GetAccountsTypeLeafList(data2);
+                        }
+                        data.HeadLeaf = datavm;
                     }
-
-                    data.HeadLeaf = datavm;
                 }
-                var Data = await _dbContext.AccountsHeads.Include(a => a.HeadLeaf).ToListAsync();
-
             }
-
-
-
-
             return aVmAccountsHead.HeadLeaf;
         }
     }

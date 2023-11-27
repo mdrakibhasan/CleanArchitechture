@@ -44,6 +44,8 @@ namespace Pos.Core.Command
         {
             RuleFor(x => x.aVmAccountsHead.HeadName).NotEmpty().WithMessage("Name is Requrid .");
             RuleFor(x => x.aVmAccountsHead.AccountsHeadTypeId).NotEmpty().WithMessage("Accounts Type is Requrid .");
+            RuleFor(x => x.aVmAccountsHead.HeadType).NotEmpty().WithMessage("Accounts Head Type is Requrid .");
+            RuleFor(x => x.aVmAccountsHead.Code).NotEmpty().WithMessage("Accounts Code is Requrid ."); ;
         }
     }
 }

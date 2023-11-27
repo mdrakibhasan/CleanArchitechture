@@ -21,7 +21,7 @@ namespace Pos.Core.Query
 		public async Task<IEnumerable<VmCategory>> Handle(GetByCategoryAll request, CancellationToken cancellationToken)
 		{
 			var result = await _sateRepository.GetList();
-			;
+			
 			return result;
 		}
 	}

@@ -12,7 +12,7 @@ using Pos.IRepository;
 
 namespace Pos.Core.Query
 {
-    public record GetByAccountsHeadAll() : IRequest<List<VmAccountsHead>>;
+    public record GetByAccountsHeadAll() : IRequest<IEnumerable<VmAccountsHead>>;
     public class GetAccountsHeadAllHandler : IRequestHandler<GetByAccountsHeadAll, IEnumerable<VmAccountsHead>>
     {
 		private readonly IAccountsHeadRepository _sateRepository;
@@ -22,7 +22,7 @@ namespace Pos.Core.Query
 		}
 		public async Task<IEnumerable<VmAccountsHead>> Handle(GetByAccountsHeadAll request, CancellationToken cancellationToken)
 		{
-			var result = await _sateRepository.GetList();
+			var result = await _sateRepository.GetAccountsType();
 			
 			return result;
 		}
