@@ -12,6 +12,9 @@ namespace Pos.Infrustructure
 
 		}
         public DbSet<AccountsHead> AccountsHeads { get; set; }
+        public DbSet<AccountTransactionMst> AccountTransactionMst { get; set; }
+        public DbSet<AccountTransactionDtl> AccountTransactionDtl { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
