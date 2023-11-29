@@ -12,5 +12,6 @@ namespace Pos.Repository.IRepository
     public interface IAccountsTransactionRepository : IRepository<AccountTransactionMst, VmAccountTransactionMst, int>
     {
         Task<List<VmAccountLadger>> GetAccountsLadger(int AccountsHeadId, DateTime FromDate, DateTime ToDate);
+        Task<VmAccountsHead> GetAccountsLadgerByRootId(int AccountsHeadId, DateTime FromDate, DateTime ToDate);
     }
 }

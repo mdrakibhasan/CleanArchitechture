@@ -58,6 +58,20 @@ namespace Pos.BackEnd.Controllers
             return  fff;
         }
 
+        [Route("AccountHeadLadger/{AccountsHeadId}")]
+        [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
+        public async Task<VmAccountsHead> AccountHeadLadger(int AccountsHeadId, DateTime FromDate, DateTime ToDate)
+        {
+            var fff = await _mediator.Send(new GetAccountsLagerByAccountsRootId(AccountsHeadId, FromDate, ToDate));
+            return fff;
+        }
+
+
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]

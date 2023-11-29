@@ -27,5 +27,7 @@ namespace Pos.Service.Model
         public string AccountsHeadTypeName { get; set; }
         public int Id { get; set; }
         public List<VmAccountsHead> HeadLeaf { get; set; }
+        public List<VmAccountTransactionDtl> AccountTransasction { get; set; }
+        public List<VmAccountLadger> vmAccountLadgers { get; set; }
     }
 }

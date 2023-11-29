@@ -26,12 +26,7 @@ namespace Pos.Repository.Repository
         {
             _dbContext = dbContext;
             _mapper = mapper;
-        }
-
-        
-
-
-
+        }  
         public async Task<IEnumerable<VmAccountsHead>> GetAccountsType()
         {
 

@@ -17,6 +17,7 @@ namespace Pos.Service.Model
         public string VoucherDate { get; set; }
         public decimal? DebitedAmount { get; set; }
         public decimal? CreditedAmount { get; set; }
+        public decimal? PrevBalance { get; set; }
         public decimal Balance { get; set; }
         public int LineNo { get; set; }
         public int Id { get; set; }

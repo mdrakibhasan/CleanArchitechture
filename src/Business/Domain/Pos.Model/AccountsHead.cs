@@ -27,5 +27,6 @@ namespace Pos.Model
         [JsonIgnore]
         public AccountsHeadType AccountsHeadType { get; set; }
         public List<AccountsHead> HeadLeaf { get; set; }
+        public List<AccountTransactionDtl> AccountTransasction { get; set; }
     }
 }

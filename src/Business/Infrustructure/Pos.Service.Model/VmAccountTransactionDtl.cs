@@ -16,5 +16,6 @@ namespace Pos.Service.Model
         public int LineNo { get; set; }
         public string Particulars { get; set; }
         public int Id { get; set; }
-}
+
+    }
 }
