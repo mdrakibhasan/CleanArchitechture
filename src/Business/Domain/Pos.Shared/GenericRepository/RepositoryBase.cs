@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using HRMaster.SharedKernel.Extensions.Pagging;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -49,11 +51,39 @@ namespace Pos.Shared.GenericRepository
             var entity = await DbSet.FindAsync(id);
             return _mapper.Map<IModel>(entity);
         }
+        public async Task<Paging<IModel>> GetPageAsync(int pageIndex, int pageSize, Expression<Func<TEntity, bool>> predicate)
+        {
+            var data = await DbSet.Where(predicate).OrderByDescending(e => e.Id).PagingAsync(pageIndex, pageSize);
+            return data.ToPagingModel<TEntity, IModel>(_mapper);
+        }
 
         public async Task<IEnumerable<IModel>> GetList()
         {
             var entityList = DbSet.AsAsyncEnumerable();
             return _mapper.Map<IEnumerable<IModel>>(entityList);
+        }
+        public async Task<Paging<IModel>> GetPageAsync(int pageIndex, int pageSize, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy, params Expression<Func<TEntity, object>>[] includes)
+        {
+            var data = await orderBy(includes.Aggregate(DbSet.AsQueryable(),
+                (current, include) => current.Include(include)))
+                .PagingAsync(pageIndex, pageSize);
+            return data.ToPagingModel<TEntity, IModel>(_mapper);
+        }
+
+        public async Task<Paging<IModel>> GetPageAsync(int pageIndex, int pageSize, Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy, params Expression<Func<TEntity, object>>[] includes)
+        {
+
+            var data = await orderBy(includes.Aggregate(DbSet.AsQueryable(),
+                (current, include) => current.Include(include), c => c.Where(predicate)))
+                .PagingAsync(pageIndex, pageSize);
+            return data.ToPagingModel<TEntity, IModel>(_mapper);
+        }
+        public async Task<Paging<TResult>> GetPageAsync<TResult>(int pageIndex, int pageSize, Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy, Expression<Func<TEntity, TResult>> selector, params Expression<Func<TEntity, object>>[] includes)
+        {
+            return await orderBy(includes.Aggregate(DbSet.AsQueryable(),
+                (current, include) => current.Include(include), c => c.Where(predicate)))
+                .PagingAsync(selector, pageIndex, pageSize);
+
         }
 
         public async Task<IModel> Update(T id, TEntity entity)

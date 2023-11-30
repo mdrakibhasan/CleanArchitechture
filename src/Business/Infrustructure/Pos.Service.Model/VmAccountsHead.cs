@@ -21,13 +21,15 @@ namespace Pos.Service.Model
         public decimal? OpeningBal { get; set; }
         public int? RootId { get; set; }
         public string RootName { get; set; }
+        public VmAccountsHead Root { get; set; }
         public string Code { get; set; }
         public int? CompanyId { get; set; }
         public int AccountsHeadTypeId { get; set; }
         public string AccountsHeadTypeName { get; set; }
         public int Id { get; set; }
         public List<VmAccountsHead> HeadLeaf { get; set; }
-        public List<VmAccountTransactionDtl> AccountTransasction { get; set; }
+        [JsonIgnore]
+        public List<VmAccountTransactionDtl> AccountTransasction { get; set; }       
         public List<VmAccountLadger> vmAccountLadgers { get; set; }
     }
 }

@@ -19,12 +19,11 @@ public class Paging<T> : IPaging<T>
         HasNextPage = CurrentPage < TotalPage;
         HasPreviousPage = CurrentPage > 1;
     }
+        public Paging()
+        {
+        }
 
-    public Paging()
-    {
-    }
-
-    public Paging(IList<T> data, int total)
+        public Paging(IList<T> data, int total)
     {
         Data = data;
         Total = total;

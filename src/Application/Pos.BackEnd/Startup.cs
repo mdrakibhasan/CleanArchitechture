@@ -10,6 +10,7 @@ using Pos.IoC.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Pos.BackEnd
@@ -28,6 +29,11 @@ namespace Pos.BackEnd
         {
 
             services.AddControllers();
+            services.AddControllersWithViews()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+        });
 
             services.AddExtention(Configuration);
             services.AddSwaggerGen(c =>

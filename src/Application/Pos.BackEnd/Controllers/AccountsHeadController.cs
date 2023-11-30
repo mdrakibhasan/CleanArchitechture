@@ -1,9 +1,11 @@
-﻿using MediatR;
+﻿using HRMaster.SharedKernel.Extensions.Pagging;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Pos.Core.AccountsHead.Command;
 using Pos.Core.Command;
 using Pos.Core.Query;
 using Pos.Service.Model;
+using Pos.Shared.Extensation.Result;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -40,7 +42,8 @@ namespace Pos.BackEnd.Controllers
         [ProducesResponseType(403)]
         public async Task<IEnumerable<VmAccountsHead>> GetAll()
         {
-            return await _mediator.Send(new GetByAccountsHeadAll());
+            var gg = await _mediator.Send(new GetByAccountsHeadAll());
+            return gg;
         }
         [HttpPost]
         [ProducesResponseType(200)]
