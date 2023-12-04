@@ -10,8 +10,8 @@ namespace Pos.Shared.GenericRepository
 {
     public interface IRepository<TEntity,IModel,T>
 
-        where TEntity:class,IEntity
-        where IModel:class, IVm
+        where TEntity:class,IEntity,new()
+        where IModel:class, IVm,new()
 
         where T:IEquatable<T>
     {
@@ -21,7 +21,9 @@ namespace Pos.Shared.GenericRepository
         Task<Paging<TResult>> GetPageAsync<TResult>(int pageIndex, int pageSize, Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy, Expression<Func<TEntity, TResult>> selector, params Expression<Func<TEntity, object>>[] includes);
 
         public Task<IEnumerable<IModel>> GetList();
-
+        Task<List<IModel>> GetAllAsyncd(Expression<Func<TEntity, bool>> predicate,
+ Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy,
+ params Expression<Func<TEntity, object>>[] includes);
         public Task Delete(T id);
 
         public Task<IModel> Update(T id, TEntity entity);

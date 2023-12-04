@@ -13,6 +13,7 @@ using HRMaster.SharedKernel.Extensions.Pagging;
 using Pos.Shared.Extensation.Result;
 using JetBrains.Annotations;
 using AutoMapper;
+using System.Linq.Expressions;
 
 namespace Pos.Core.Query
 {
@@ -34,21 +35,30 @@ namespace Pos.Core.Query
         public async Task<IEnumerable<VmAccountsHead>> Handle(GetByAccountsHeadAll request, CancellationToken cancellationToken)
 		{
 
+            var data = await _sateRepository.GetAllAsyncd(
+    x => x.Id==x.Id,
+    orderBy: null, // Provide your orderBy function if needed
+    includes: new Expression<Func<Model.AccountsHead, object>>[]
+    {
+        x=> x.HeadLeaf
+}
+);
+           return data;
 
-            //var result = await  _sateRepository.GetPageAsync(0,10,p => p.Where(a=>a.RootId==null).OrderBy(a=>a.Id),d=>d.Root);
+           // var result = await _sateRepository.GetPageAsync(0, 10, p => p.Where(a => a.RootId == null).OrderBy(a => a.Id), d => d.Root);
 
 
-            //var result = await _sateRepository.GetAccountsType();
+           // //var result = await _sateRepository.GetAccountsType();
 
-            //var data = _mapper.Map<List<VmAccountsHead>>(result.Data);
-            var result = await _sateRepository.GetList();
+           // var data = _mapper.Map<List<VmAccountsHead>>(result.Data);
+           // var result = await _sateRepository.GetList();
 
-            return result;
-            //return result switch
-            //{
-            //    not null => new QueryResult<Paging<VmAccountsHead>>(result, QueryResultTypeEnum.Success),
-            //    _ => new QueryResult<Paging<VmAccountsHead>>(null, QueryResultTypeEnum.NotFound)
-            //};
+           //// return result;
+           // return result switch
+           // {
+           //     not null => new QueryResult<Paging<VmAccountsHead>>(result, QueryResultTypeEnum.Success),
+           //     _ => new QueryResult<Paging<VmAccountsHead>>(null, QueryResultTypeEnum.NotFound)
+           // };
         }
 
        
