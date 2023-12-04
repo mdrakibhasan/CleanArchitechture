@@ -30,7 +30,7 @@ namespace Pos.Core.Query
         {
 
            
-            var result = await _AccountTransactionRepository.GetById(request.id);
+            var result = await _AccountTransactionRepository.GetTransactionDetails(request.id);
             return result;
 
         }

@@ -13,5 +13,6 @@ namespace Pos.Repository.IRepository
     {
         Task<List<VmAccountLadger>> GetAccountsLadger(int AccountsHeadId, DateTime FromDate, DateTime ToDate);
         Task<VmAccountsHead> GetAccountsLadgerByRootId(int AccountsHeadId, DateTime FromDate, DateTime ToDate);
+        Task<VmAccountTransactionMst> GetTransactionDetails(int TranMstId);
     }
 }

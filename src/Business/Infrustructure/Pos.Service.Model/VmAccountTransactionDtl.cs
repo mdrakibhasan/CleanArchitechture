@@ -15,6 +15,7 @@ namespace Pos.Service.Model
         public decimal? DebitedAmount { get; set; }
         public int LineNo { get; set; }
         public string Particulars { get; set; }
+        public string HeadName { get; set; }
         public int Id { get; set; }
 
     }
