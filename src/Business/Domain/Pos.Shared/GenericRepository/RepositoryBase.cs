@@ -56,7 +56,14 @@ namespace Pos.Shared.GenericRepository
             var data = await DbSet.Where(predicate).OrderByDescending(e => e.Id).PagingAsync(pageIndex, pageSize);
             return data.ToPagingModel<TEntity, IModel>(_mapper);
         }
-
+        public async Task<IModel> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes)
+        {
+            return _mapper.Map<IModel>(await includes.Aggregate(DbSet.AsQueryable(),
+                (current, include) => current.Include(include),
+                c => c.AsNoTracking().FirstOrDefaultAsync(predicate))
+                .ConfigureAwait(false));
+        }
+      
         public async Task<IEnumerable<IModel>> GetList()
         {
             var entityList = DbSet.AsAsyncEnumerable();
