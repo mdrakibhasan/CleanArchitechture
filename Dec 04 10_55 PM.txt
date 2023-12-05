@@ -1,0 +1,136 @@
+
+
+public interface IPurchaseRepository  : IBaseRepository<Purchase, PurchaseVM, long> , IApplication
+{
+
+  public  Task<PurchaseVM> GetPurchaseDetials(int id);
+    public Task<List<PurchaseVM>> GetPurchaseDetials();
+    Task<PurchaseVM> UpdatePurchaseAsync(long id, Purchase entity);
+  public Task<PurchaseVM> DeletePurchase(Purchase entity);
+
+}
+
+
+
+
+
+
+----------base 
+
+
+using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using VMS.Application.Common;
+using VMS.Application.Models.Entities;
+using VMS.Application.Repository;
+using VMS.Domain.Entities;
+using VMS.Infrastructure.AppContext;
+
+namespace VMS.Application.EntityRepository.Base;
+public class PurchaseRepository(IMapper mapper, ApplicationDbContext context) : BaseRepository<Purchase, PurchaseVM, long>(mapper, context), IPurchaseRepository
+{
+    public Task<PurchaseVM> DeletePurchase(Purchase entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<PurchaseVM> GetPurchaseDetials(int id)
+    {
+        var data = await DbSet
+        .Where(x => x.Id == id && !x.IsDelete)  
+        .Include(i => i.PurchaseDetailsVMs)
+        .ThenInclude(i => i.Items)
+        .FirstOrDefaultAsync();
+
+        if (data != null)
+        {
+           
+            data.PurchaseDetailsVMs.ForEach(x => x.TotalAmount = x.Quantity * x.UnitPrice);
+
+            return  mapper.Map<PurchaseVM>(data);
+        }
+
+  
+        return null;
+    }
+
+    public async Task<List<PurchaseVM>> GetPurchaseDetials()
+    {
+        var data = await DbSet
+         .Where(x => !x.IsDelete).Include(i => i.Vendors)
+         .Include(i => i.PurchaseDetailsVMs)
+         .ThenInclude(i => i.Items)
+         .ToListAsync();
+
+        var data2 = data.Select(x => new PurchaseVM
+
+        { InvoiceNo = x.InvoiceNo, Id = x.Id, PurchaseDate = x.PurchaseDate, VendorId = x.VendorId, TotalAmount = x.PurchaseDetailsVMs.Sum(a => a.TotalAmount) ,VendorName=x.Vendors.VendorName }).ToList();
+
+        return data2;
+    }
+
+    public async Task<PurchaseVM> UpdatePurchaseAsync(long id, Purchase entity)
+    {
+        var data = await DbSet
+         .Where(x => x.Id == id && !x.IsDelete)  
+         .Include(i => i.PurchaseDetailsVMs)
+         .ThenInclude(i => i.Items)
+         .FirstOrDefaultAsync();
+        if (data != null)
+        {
+            entity.Copy(data);
+            DbSet.Update(data);
+            await context.SaveChangesAsync();
+        }
+        return _mapper.Map<PurchaseVM>(data);
+    }
+}
+.....................
+
+
+
+
+using FluentValidation;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using VMS.Application.Common;
+using VMS.Application.EntityRepository;
+using VMS.Application.EntityRepository.Base;
+using VMS.Application.Profiles;
+using VMS.Application.Repository;
+
+namespace VMS.Application;
+
+public static class RegisterService
+{
+    public static IServiceCollection ApplicationConfiguration(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddAutoMapper(x => {
+            x.AddMaps(typeof(IApplication).Assembly);
+
+        });
+        services.AddValidatorsFromAssembly(typeof(IApplication).Assembly);
+       
+        services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
+        services.AddScoped(typeof(IBaseRepository<,,>), typeof(BaseRepository<,,>));
+        //services.AddTransient<ICityRepository, CityRepository>();
+        //services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+
+
+        services.Scan(scan => scan.FromAssemblyOf<IApplication>()
+            .AddClasses(classes => classes.AssignableTo<IApplication>())
+            .AddClasses(x => x.AssignableTo(typeof(IBaseRepository<,,>)))
+            .AsSelfWithInterfaces()
+            .WithScopedLifetime());
+
+        return services;
+    }
+}
+

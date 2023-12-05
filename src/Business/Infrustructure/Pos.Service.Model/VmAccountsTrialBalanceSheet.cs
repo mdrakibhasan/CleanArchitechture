@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pos.Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Pos.Service.Model
 {
-    public class VmAccountsTrialBalanceSheet
+    public class VmAccountsTrialBalanceSheet:IVm
     {
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         public int Level { get; set; }
         public List<VmAccountsHeadDetails> AccountsHeadDetails { get; set; }
-
+        public int Id { get; set; }
     }
     public class VmAccountsHeadDetails
     {

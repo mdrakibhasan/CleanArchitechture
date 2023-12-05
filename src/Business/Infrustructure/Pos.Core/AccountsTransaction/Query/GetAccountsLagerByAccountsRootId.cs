@@ -17,11 +17,11 @@ namespace Pos.Core.AccountsTransaction.Query
     public class GetAccountsLagerByAccountsRootIdHandler : IRequestHandler<GetAccountsLagerByAccountsRootId, VmAccountsHead>
     {
 
-        private readonly IAccountsTransactionRepository _AccountTransactionRepository;
+        private readonly IAccountsReportReposity _AccountTransactionRepository;
 
         private readonly IMapper _mapper;
 
-        public GetAccountsLagerByAccountsRootIdHandler(IAccountsTransactionRepository AccountTransactionRepository, IMapper mapper)
+        public GetAccountsLagerByAccountsRootIdHandler(IAccountsReportReposity AccountTransactionRepository, IMapper mapper)
         {
             _AccountTransactionRepository = AccountTransactionRepository;
             _mapper = mapper;

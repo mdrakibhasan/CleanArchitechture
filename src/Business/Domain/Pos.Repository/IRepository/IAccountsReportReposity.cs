@@ -9,7 +9,10 @@ using System.Threading.Tasks;
 
 namespace Pos.Repository.IRepository
 {
-    public class IAccountsReportReposity 
+    public interface IAccountsReportReposity 
     {
+        Task<VmAccountsTrialBalanceSheet> GetTrialBalance(int Level, DateTime FromDate, DateTime ToDate);
+        Task<List<VmAccountLadger>> GetAccountsLadger(int AccountsHeadId, DateTime FromDate, DateTime ToDate);
+        Task<VmAccountsHead> GetAccountsLadgerByRootId(int AccountsHeadId, DateTime FromDate, DateTime ToDate);
     }
 }

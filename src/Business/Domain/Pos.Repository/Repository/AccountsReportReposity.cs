@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Pos.Infrustructure;
+using Pos.Infrustructure.Migrations;
 using Pos.Repository.IRepository;
 using Pos.Service.Model;
 using System;
@@ -25,60 +27,113 @@ namespace Pos.Repository.Repository
             var Data = _dbContext.AccountsHeads.Include(a => a.HeadLeaf).Include(a => a.AccountsHeadType).Where(a => a.RootId == null).AsAsyncEnumerable();
             var _vmAccountsHeads = _mapper.Map<IEnumerable<VmAccountsHead>>(Data);
             List<VmAccountsHeadDetails> levelList=new List<VmAccountsHeadDetails>();
-            VmAccountsTrialBalanceSheet _vmAccountsTrialBalanceSheet = new VmAccountsTrialBalanceSheet();  
+            VmAccountsTrialBalanceSheet _vmAccountsTrialBalanceSheet = new VmAccountsTrialBalanceSheet();
+            levelList = (from a in _vmAccountsHeads
+
+                         select new VmAccountsHeadDetails
+                         {
+                             AccountCode = a.Code,
+                             AccountsType = a.AccountsHeadTypeName,
+                             HeadId = a.Id,
+                             CreditedAmount = 0,
+                             DebitedAmount = 0,
+                             Balance = 0,
+                             PrevBalance = 0,
+                             HeadName = a.HeadName,
+                             RootLeaf = a.RootLeaf,
+                         }
+                                                                  ).ToList();
             if (Level==1)
             {
-                _vmAccountsTrialBalanceSheet.AccountsHeadDetails= (from a in _vmAccountsHeads
-                                                                   
-                                                                   select new VmAccountsHeadDetails
-                                                                   {
-                                                                       AccountCode=a.Code,
-                                                                       AccountsType=a.AccountsHeadTypeName,
-                                                                       HeadId=a.Id,
-                                                                       CreditedAmount=0,
-                                                                       DebitedAmount=0,
-                                                                       Balance=0,
-                                                                       PrevBalance=0,
-                                                                       HeadName=a.HeadName,
-                                                                   }
-                                                                   ).ToList();
+                _vmAccountsTrialBalanceSheet.AccountsHeadDetails = levelList;
+                foreach (VmAccountsHeadDetails details in _vmAccountsTrialBalanceSheet.AccountsHeadDetails)
+                {
+                    var data = await GetAccountsLadgerByRootId(details.HeadId, FromDate, ToDate);
+                    details.CreditedAmount = data.vmAccountLadgers.Sum(a => a.CreditedAmount);
+                    details.DebitedAmount = data.vmAccountLadgers.Sum(a => a.DebitedAmount);
+                    details.PrevBalance = data.vmAccountLadgers.Sum(a => a.PrevBalance);
+                    details.Balance = data.vmAccountLadgers.Sum(a => a.Balance);
+                }
             }
             else
             {
-                for (int i=2;i<=4;i++)
+               
+
+                for (int i=1;i<=4;i++)
                 {
-                    if(i==Level)
+                    var loplavellist = new List<VmAccountsHeadDetails>(); 
+
+                    if (i == Level)
                     {
-                        //levelList.AddRange(from);
+
+
+                        _vmAccountsTrialBalanceSheet.AccountsHeadDetails = levelList;
+
+                        foreach (VmAccountsHeadDetails details in _vmAccountsTrialBalanceSheet.AccountsHeadDetails)
+                        {
+                            var data = await GetAccountsLadgerByRootId(details.HeadId, FromDate, ToDate);
+                            details.CreditedAmount = data.vmAccountLadgers.Sum(a=>a.CreditedAmount);
+                            details.DebitedAmount = data.vmAccountLadgers.Sum(a => a.DebitedAmount);
+                            details.PrevBalance = data.vmAccountLadgers.Sum(a => a.PrevBalance);
+                            details.Balance = data.vmAccountLadgers.Sum(a => a.Balance);
+                        }
+                        break;
                     }
                     else
                     {
-                        
-                    }
-                }
-                foreach (var data in _vmAccountsHeads)
-                {
-                    if (data.RootLeaf != "L")
-                    {
-                        data.HeadLeaf = await GetAccountsTypeLeafList(data);
-                    }
-                    else
-                    {
-                        _vmAccountsTrialBalanceSheet.AccountsHeadDetails.Add( new VmAccountsHeadDetails
-                                                                            {
-                                                                                AccountCode = data.Code,
-                                                                                AccountsType = data.AccountsHeadTypeName,
-                                                                                HeadId = data.Id,
-                                                                                CreditedAmount = 0,
-                                                                                DebitedAmount = 0,
-                                                                                Balance = 0,
-                                                                                PrevBalance = 0,
-                                                                                HeadName = data.HeadName,
-                                                                            }
-                                                                   );
+                        foreach (var data in levelList)
+                        {
+                            if(data.RootLeaf=="L")
+                            {
+                                loplavellist.Add(data);
+
+                            }
+                            else
+                            {
+                                var headlist = await _dbContext.AccountsHeads.Include(a => a.AccountsHeadType).Include(a => a.HeadLeaf).SingleOrDefaultAsync(a => a.Id == data.HeadId);
+                              
+                                var _Vmheadlist = _mapper.Map<VmAccountsHead>(headlist);
+                                if (_Vmheadlist.HeadLeaf.Count > 0)
+                                {
+                                    loplavellist.AddRange((from a in _Vmheadlist.HeadLeaf
+
+                                                           select new VmAccountsHeadDetails
+                                                           {
+                                                               AccountCode = a.Code,
+                                                               AccountsType = a.AccountsHeadTypeName,
+                                                               HeadId = a.Id,
+                                                               CreditedAmount = 0,
+                                                               DebitedAmount = 0,
+                                                               Balance = 0,
+                                                               PrevBalance = 0,
+                                                               HeadName = a.HeadName,
+                                                               RootLeaf = a.RootLeaf,
+                                                           }
+                                                                      ).ToList());
+                                }
+
+                                //else
+                                //{
+                                //    loplavellist.Add(new VmAccountsHeadDetails
+                                //    {
+                                //        AccountCode = _Vmheadlist.Code,
+                                //        AccountsType = _Vmheadlist.AccountsHeadTypeName,
+                                //        HeadId = _Vmheadlist.Id,
+                                //        CreditedAmount = 0,
+                                //        DebitedAmount = 0,
+                                //        Balance = 0,
+                                //        PrevBalance = 0,
+                                //        HeadName = _Vmheadlist.HeadName,
+                                //        RootLeaf = _Vmheadlist.RootLeaf,
+                                //    });
+                                //}
+                            }
+                        }
                     }
 
+                    levelList = loplavellist;
                 }
+                
             }
 
 
@@ -171,65 +226,90 @@ namespace Pos.Repository.Repository
 
             var Data = await _dbContext.AccountsHeads.Include(a => a.HeadLeaf).SingleOrDefaultAsync(a => a.Id == AccountsHeadId);
             var _vmAccountsHeads = _mapper.Map<VmAccountsHead>(Data);
-
-            if (_vmAccountsHeads.RootLeaf != null && _vmAccountsHeads.RootLeaf != "L")
+            if (_vmAccountsHeads != null)
             {
-
-                _vmAccountsHeads.vmAccountLadgers = new List<VmAccountLadger>();
-                var vmdata = await GetAccountsTransactionList(_vmAccountsHeads, FromDate, ToDate);
-                var data = vmdata.OrderBy(a => a.Id).ToList();
-                _vmAccountsHeads.vmAccountLadgers = data.Select((a, index) =>
-               new VmAccountLadger
-               {
-                   HeadName = a.HeadName,
-                   VoucherNo = a.VoucherNo,
-                   CompanyId = a.CompanyId,
-                   Particulars = a.Particulars,
-                   ManualVoucherNo = a.ManualVoucherNo,
-                   VoucherType = a.VoucherType,
-                   CreditedAmount = a.CreditedAmount,
-                   PrevBalance = (data.Sum(c => c.PrevBalance) ?? 0),
-                   DebitedAmount = a.DebitedAmount,
-                   VoucherDate = a.VoucherDate,
-                   PrevCreditedAmount = data.Take(index + 1).Sum(x => x.CreditedAmount) ?? 0,
-                   PrevDebitedAmount = data.Take(index + 1).Sum(x => x.DebitedAmount) ?? 0,
-                   Balance = (data.Sum(c => c.PrevBalance) ?? 0) + (data.Take(index + 1).Sum(x => x.DebitedAmount) ?? 0) - (data.Take(index + 1).Sum(x => x.CreditedAmount) ?? 0),
-                   LineNo = a.LineNo,
-                   Id = a.Id,
-                   TranMstId = a.TranMstId,
-               }).OrderBy(a => a.Id).ToList();
-            }
-            else
-            {
-                var Datad = await _dbContext.AccountTransactionDtl.Include(a => a.AccountTransactionMst).Where(a => a.AccountsHeadId == _vmAccountsHeads.Id && a.AccountTransactionMst.VoucherDate.Date >= FromDate && a.AccountTransactionMst.VoucherDate.Date <= ToDate).ToListAsync();
-
-                var PBal = await _dbContext.AccountTransactionDtl.Where(a => a.AccountsHeadId == _vmAccountsHeads.Id && a.AccountTransactionMst.VoucherDate.Date < FromDate).GroupBy(x => new { x.AccountsHeadId }).Select(a => new { CreditedAmount = a.Sum(g => g.CreditedAmount), DebitedAmount = a.Sum(g => g.DebitedAmount), a.Key.AccountsHeadId }).ToListAsync();
-
-                var res = Datad.Select((a, index) =>
-                new VmAccountLadger
+                if (_vmAccountsHeads.RootLeaf != null && _vmAccountsHeads.RootLeaf != "L")
                 {
-                    HeadName = a.AccountsHead.HeadName,
-                    VoucherNo = a.AccountTransactionMst.VoucherNo,
-                    CompanyId = a.AccountTransactionMst.CompanyId,
-                    Particulars = a.AccountTransactionMst.Particulars,
-                    ManualVoucherNo = a.AccountTransactionMst.ManualVoucherNo,
-                    PrevBalance = (PBal.Sum(c => c.DebitedAmount) ?? 0) - (PBal.Sum(c => c.CreditedAmount) ?? 0),
-                    VoucherType = a.AccountTransactionMst.VoucherType,
-                    CreditedAmount = a.CreditedAmount,
-                    DebitedAmount = a.DebitedAmount,
-                    VoucherDate = a.AccountTransactionMst.VoucherDate.ToLocalTime().ToString("dd/MM/yyyy"),
-                    Balance = (PBal.Sum(c => c.DebitedAmount) ?? 0) - (PBal.Sum(c => c.CreditedAmount) ?? 0) + (Datad.Take(index + 1).Sum(x => x.DebitedAmount) ?? 0) - (Datad.Take(index + 1).Sum(x => x.CreditedAmount) ?? 0),
-                    LineNo = a.LineNo,
-                    Id = a.Id,
-                    TranMstId = a.AccountTransactionMstID,
+
+                    _vmAccountsHeads.vmAccountLadgers = new List<VmAccountLadger>();
+                    var vmdata = await GetAccountsTransactionList(_vmAccountsHeads, FromDate, ToDate);
+                    var data = vmdata.OrderBy(a => a.Id).ToList();
+                    _vmAccountsHeads.vmAccountLadgers = data.Select((a, index) =>
+                   new VmAccountLadger
+                   {
+                       HeadName = a.HeadName,
+                       VoucherNo = a.VoucherNo,
+                       CompanyId = a.CompanyId,
+                       Particulars = a.Particulars,
+                       ManualVoucherNo = a.ManualVoucherNo,
+                       VoucherType = a.VoucherType,
+                       CreditedAmount = a.CreditedAmount,
+                       PrevBalance = a.PrevBalance ?? 0,
+                       DebitedAmount = a.DebitedAmount,
+                       VoucherDate = a.VoucherDate,
+                       PrevCreditedAmount = data.Take(index + 1).Sum(x => x.CreditedAmount) ?? 0,
+                       PrevDebitedAmount = data.Take(index + 1).Sum(x => x.DebitedAmount) ?? 0,
+                       Balance = (data.Sum(c => c.PrevBalance) ?? 0) + (data.Take(index + 1).Sum(x => x.DebitedAmount) ?? 0) - (data.Take(index + 1).Sum(x => x.CreditedAmount) ?? 0),
+                       LineNo = a.LineNo,
+                       Id = a.Id,
+                       TranMstId = a.TranMstId,
+                   }).OrderBy(a => a.Id).ToList();
+                }
+                else
+                {
+                    var Datad = await _dbContext.AccountTransactionDtl.Include(a => a.AccountTransactionMst).Where(a => a.AccountsHeadId == _vmAccountsHeads.Id && a.AccountTransactionMst.VoucherDate.Date >= FromDate && a.AccountTransactionMst.VoucherDate.Date <= ToDate).ToListAsync();
+
+                    var PBal = await _dbContext.AccountTransactionDtl.Where(a => a.AccountsHeadId == _vmAccountsHeads.Id && a.AccountTransactionMst.VoucherDate.Date < FromDate).GroupBy(x => new { x.AccountsHeadId }).Select(a => new { CreditedAmount = a.Sum(g => g.CreditedAmount), DebitedAmount = a.Sum(g => g.DebitedAmount), a.Key.AccountsHeadId }).ToListAsync();
+                    if (Datad.Count > 0)
+                    {
+                        var res = Datad.Select((a, index) =>
+                        new VmAccountLadger
+                        {
+                            HeadName = a.AccountsHead.HeadName,
+                            VoucherNo = a.AccountTransactionMst.VoucherNo,
+                            CompanyId = a.AccountTransactionMst.CompanyId,
+                            Particulars = a.AccountTransactionMst.Particulars,
+                            ManualVoucherNo = a.AccountTransactionMst.ManualVoucherNo,
+                            PrevBalance = (PBal.Sum(c => c.DebitedAmount) ?? 0) - (PBal.Sum(c => c.CreditedAmount) ?? 0),
+                            VoucherType = a.AccountTransactionMst.VoucherType,
+                            CreditedAmount = a.CreditedAmount,
+                            DebitedAmount = a.DebitedAmount,
+                            VoucherDate = a.AccountTransactionMst.VoucherDate.ToLocalTime().ToString("dd/MM/yyyy"),
+                            Balance = (PBal.Sum(c => c.DebitedAmount) ?? 0) - (PBal.Sum(c => c.CreditedAmount) ?? 0) + (Datad.Take(index + 1).Sum(x => x.DebitedAmount) ?? 0) - (Datad.Take(index + 1).Sum(x => x.CreditedAmount) ?? 0),
+                            LineNo = a.LineNo,
+                            Id = a.Id,
+                            TranMstId = a.AccountTransactionMstID,
 
 
-                }).ToList();
-                _vmAccountsHeads.vmAccountLadgers = new List<VmAccountLadger>();
-                _vmAccountsHeads.vmAccountLadgers.AddRange(res);
+                        }).ToList();
+                        _vmAccountsHeads.vmAccountLadgers = new List<VmAccountLadger>();
+                        _vmAccountsHeads.vmAccountLadgers.AddRange(res);
+                    }
+                    else
+                    {
+                        _vmAccountsHeads.vmAccountLadgers = new List<VmAccountLadger>();
+                        _vmAccountsHeads.vmAccountLadgers.Add(new VmAccountLadger
+                        {
+                            HeadName = Data.HeadName,
+                            VoucherNo = "",
+                            CompanyId = Data.CompanyId,
+                            Particulars = "",
+                            ManualVoucherNo = "000",
+                            VoucherType = "P",
+                            PrevBalance = (PBal.Sum(c => c.DebitedAmount) ?? 0) - (PBal.Sum(c => c.CreditedAmount) ?? 0),
+                            CreditedAmount = 0,
+                            DebitedAmount = 0,
+                            VoucherDate = FromDate.AddDays(-1).ToString("dd/MM/yyyy"),
+                            Balance = (PBal.Sum(c => c.DebitedAmount) ?? 0) - (PBal.Sum(c => c.CreditedAmount) ?? 0),
+                            LineNo = 0,
+                            Id = 0,
+                            TranMstId = 0,
+                        });
+                    }
+
+                }
+
             }
-
-
 
             return _vmAccountsHeads;
         }
@@ -250,27 +330,50 @@ namespace Pos.Repository.Repository
                         var Datarec = await _dbContext.AccountTransactionDtl.Include(a => a.AccountTransactionMst).Where(a => a.AccountsHeadId == data.Id && a.AccountTransactionMst.VoucherDate.Date >= FromDate && a.AccountTransactionMst.VoucherDate.Date <= ToDate).OrderBy(a => a.Id).ToListAsync();
 
                         var PBal = await _dbContext.AccountTransactionDtl.Where(a => a.AccountsHeadId == data.Id && a.AccountTransactionMst.VoucherDate.Date < FromDate).GroupBy(x => new { x.AccountsHeadId }).Select(a => new { CreditedAmount = a.Sum(g => g.CreditedAmount), DebitedAmount = a.Sum(g => g.DebitedAmount), a.Key.AccountsHeadId }).ToListAsync();
-
-                        var res = Datarec.Select((a, index) =>
-                        new VmAccountLadger
+                        if (Datarec.Count > 0)
                         {
-                            HeadName = a.AccountsHead.HeadName,
-                            VoucherNo = a.AccountTransactionMst.VoucherNo,
-                            CompanyId = a.AccountTransactionMst.CompanyId,
-                            Particulars = a.AccountTransactionMst.Particulars,
-                            ManualVoucherNo = a.AccountTransactionMst.ManualVoucherNo,
-                            VoucherType = a.AccountTransactionMst.VoucherType,
-                            PrevBalance = (PBal.Sum(c => c.DebitedAmount) ?? 0) - (PBal.Sum(c => c.CreditedAmount) ?? 0),
-                            CreditedAmount = a.CreditedAmount,
-                            DebitedAmount = a.DebitedAmount,
-                            VoucherDate = a.AccountTransactionMst.VoucherDate.ToLocalTime().ToString("dd/MM/yyyy"),
-                            Balance = (PBal.Sum(c => c.DebitedAmount) ?? 0) - (PBal.Sum(c => c.CreditedAmount) ?? 0) + (Datarec.Take(index + 1).Sum(x => x.DebitedAmount) ?? 0) - (Datarec.Take(index + 1).Sum(x => x.CreditedAmount) ?? 0),
-                            LineNo = a.LineNo,
-                            Id = a.Id,
-                            TranMstId = a.AccountTransactionMstID,
-                        }).ToList();
+                            var res = Datarec.Select((a, index) =>
+                            new VmAccountLadger
+                            {
+                                HeadName = a.AccountsHead.HeadName,
+                                VoucherNo = a.AccountTransactionMst.VoucherNo,
+                                CompanyId = a.AccountTransactionMst.CompanyId,
+                                Particulars = a.AccountTransactionMst.Particulars,
+                                ManualVoucherNo = a.AccountTransactionMst.ManualVoucherNo,
+                                VoucherType = a.AccountTransactionMst.VoucherType,
+                                PrevBalance = (PBal.Sum(c => c.DebitedAmount) ?? 0) - (PBal.Sum(c => c.CreditedAmount) ?? 0),
+                                CreditedAmount = a.CreditedAmount,
+                                DebitedAmount = a.DebitedAmount,
+                                VoucherDate = a.AccountTransactionMst.VoucherDate.ToLocalTime().ToString("dd/MM/yyyy"),
+                                Balance = (PBal.Sum(c => c.DebitedAmount) ?? 0) - (PBal.Sum(c => c.CreditedAmount) ?? 0) + (Datarec.Take(index + 1).Sum(x => x.DebitedAmount) ?? 0) - (Datarec.Take(index + 1).Sum(x => x.CreditedAmount) ?? 0),
+                                LineNo = a.LineNo,
+                                Id = a.Id,
+                                TranMstId = a.AccountTransactionMstID,
+                            }).ToList();
 
-                        aVmAccountsHead.vmAccountLadgers.AddRange(res);
+
+                            aVmAccountsHead.vmAccountLadgers.AddRange(res);
+                        }
+                        else
+                        {
+                            aVmAccountsHead.vmAccountLadgers.Add(new VmAccountLadger
+                            {
+                                HeadName = data.HeadName,
+                                VoucherNo = "",
+                                CompanyId = data.CompanyId,
+                                Particulars = "",
+                                ManualVoucherNo = "000",
+                                VoucherType = "P",
+                                PrevBalance = (PBal.Sum(c => c.DebitedAmount) ?? 0) - (PBal.Sum(c => c.CreditedAmount) ?? 0),
+                                CreditedAmount = 0,
+                                DebitedAmount = 0,
+                                VoucherDate = FromDate.AddDays(-1).ToString("dd/MM/yyyy"),
+                                Balance = (PBal.Sum(c => c.DebitedAmount) ?? 0) - (PBal.Sum(c => c.CreditedAmount) ?? 0),
+                                LineNo = 0,
+                                Id = 0,
+                                TranMstId =0,
+                            });
+                        }
 
                     }
                     else
