@@ -1,16 +1,10 @@
 ﻿using MediatR;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Pos.Repository;
 using Pos.Service.Model;
 using System.Threading;
 using Pos.Repository.IRepository;
-using Pos.IRepository;
-using HRMaster.SharedKernel.Extensions.Pagging;
-using Pos.Shared.Extensation.Result;
 using JetBrains.Annotations;
 using AutoMapper;
 using System.Linq.Expressions;
@@ -36,13 +30,13 @@ namespace Pos.Core.Query
 		{
 
             var data = await _sateRepository.GetAllAsyncd(
-    x => x.Id==x.Id,
-    orderBy: null, // Provide your orderBy function if needed
-    includes: new Expression<Func<Model.AccountsHead, object>>[]
-    {
-        x=> x.HeadLeaf
-}
-);
+                    x => x.Id==x.Id,
+                    orderBy: null, // Provide your orderBy function if needed
+                    includes: new Expression<Func<Model.AccountsHead, object>>[]
+                    {
+                        x=> x.HeadLeaf
+                    });
+
            return data;
 
            // var result = await _sateRepository.GetPageAsync(0, 10, p => p.Where(a => a.RootId == null).OrderBy(a => a.Id), d => d.Root);
