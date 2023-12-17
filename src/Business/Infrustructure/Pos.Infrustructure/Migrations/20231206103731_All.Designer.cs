@@ -10,8 +10,8 @@ using Pos.Infrustructure;
 namespace Pos.Infrustructure.Migrations
 {
     [DbContext(typeof(PosDbContext))]
-    [Migration("20231126095549_accountsHeadcompanyid")]
-    partial class accountsHeadcompanyid
+    [Migration("20231206103731_All")]
+    partial class All
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,132 @@ namespace Pos.Infrustructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Pos.Model.AccountTransactionDtl", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AccountTransactionMstID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AccountsHeadId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("CreditedAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("DebitedAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTimeOffset?>("LastModified")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LineNo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Particulars")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountTransactionMstID");
+
+                    b.HasIndex("AccountsHeadId");
+
+                    b.ToTable("AccountTransactionDtl");
+                });
+
+            modelBuilder.Entity("Pos.Model.AccountTransactionMst", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AuthBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AuthDate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AuthRef")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("AuthRefId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("CreditedAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("DebitedAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("LastModified")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ManualVoucherNo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Particulars")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTimeOffset>("VoucherDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("VoucherNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VoucherType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AccountTransactionMst");
+                });
 
             modelBuilder.Entity("Pos.Model.AccountsHead", b =>
                 {
@@ -117,6 +243,97 @@ namespace Pos.Infrustructure.Migrations
                     b.ToTable("AccountsHeadTypes");
                 });
 
+            modelBuilder.Entity("Pos.Model.AccountsReportSetting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("LastModified")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("OpeningDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReportName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReportType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AccountsReportSettings");
+                });
+
+            modelBuilder.Entity("Pos.Model.AccountsReportSettingDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AccountsHeadId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AccountsReportSettingId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeadType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeadingName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset?>("LastModified")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LineNo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TotalLineNoList")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TotalType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountsHeadId");
+
+                    b.HasIndex("AccountsReportSettingId");
+
+                    b.ToTable("AccountsReportSettingDetails");
+                });
+
             modelBuilder.Entity("Pos.Model.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -210,7 +427,7 @@ namespace Pos.Infrustructure.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 26, 15, 55, 49, 372, DateTimeKind.Unspecified).AddTicks(1094), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 12, 6, 16, 37, 31, 313, DateTimeKind.Unspecified).AddTicks(2391), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             Name = "Apple",
                             Status = 1
@@ -218,7 +435,7 @@ namespace Pos.Infrustructure.Migrations
                         new
                         {
                             Id = 2,
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 26, 15, 55, 49, 373, DateTimeKind.Unspecified).AddTicks(8903), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 12, 6, 16, 37, 31, 315, DateTimeKind.Unspecified).AddTicks(359), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             Status = 1
                         });
@@ -343,7 +560,7 @@ namespace Pos.Infrustructure.Migrations
                         {
                             Id = 1,
                             BarCode = "0001",
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 26, 15, 55, 49, 395, DateTimeKind.Unspecified).AddTicks(2653), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 12, 6, 16, 37, 31, 333, DateTimeKind.Unspecified).AddTicks(4087), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             ItemId = 1,
                             ProductName = "Apple",
@@ -353,7 +570,7 @@ namespace Pos.Infrustructure.Migrations
                         {
                             Id = 2,
                             BarCode = "0002",
-                            Created = new DateTimeOffset(new DateTime(2023, 11, 26, 15, 55, 49, 395, DateTimeKind.Unspecified).AddTicks(3443), new TimeSpan(0, 6, 0, 0, 0)),
+                            Created = new DateTimeOffset(new DateTime(2023, 12, 6, 16, 37, 31, 333, DateTimeKind.Unspecified).AddTicks(4880), new TimeSpan(0, 6, 0, 0, 0)),
                             CreatedBy = "1",
                             ItemId = 2,
                             ProductName = "Mango",
@@ -421,6 +638,25 @@ namespace Pos.Infrustructure.Migrations
                     b.ToTable("SubCategory");
                 });
 
+            modelBuilder.Entity("Pos.Model.AccountTransactionDtl", b =>
+                {
+                    b.HasOne("Pos.Model.AccountTransactionMst", "AccountTransactionMst")
+                        .WithMany("AccountsDtl")
+                        .HasForeignKey("AccountTransactionMstID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Pos.Model.AccountsHead", "AccountsHead")
+                        .WithMany("AccountTransasction")
+                        .HasForeignKey("AccountsHeadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AccountsHead");
+
+                    b.Navigation("AccountTransactionMst");
+                });
+
             modelBuilder.Entity("Pos.Model.AccountsHead", b =>
                 {
                     b.HasOne("Pos.Model.AccountsHeadType", "AccountsHeadType")
@@ -436,6 +672,23 @@ namespace Pos.Infrustructure.Migrations
                     b.Navigation("AccountsHeadType");
 
                     b.Navigation("Root");
+                });
+
+            modelBuilder.Entity("Pos.Model.AccountsReportSettingDetails", b =>
+                {
+                    b.HasOne("Pos.Model.AccountsHead", "AccountsHead")
+                        .WithMany()
+                        .HasForeignKey("AccountsHeadId");
+
+                    b.HasOne("Pos.Model.AccountsReportSetting", "AccountsReportSetting")
+                        .WithMany("accountsReportSettingDetails")
+                        .HasForeignKey("AccountsReportSettingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AccountsHead");
+
+                    b.Navigation("AccountsReportSetting");
                 });
 
             modelBuilder.Entity("Pos.Model.Product", b =>
@@ -479,9 +732,21 @@ namespace Pos.Infrustructure.Migrations
                     b.Navigation("SubCategory");
                 });
 
+            modelBuilder.Entity("Pos.Model.AccountTransactionMst", b =>
+                {
+                    b.Navigation("AccountsDtl");
+                });
+
             modelBuilder.Entity("Pos.Model.AccountsHead", b =>
                 {
+                    b.Navigation("AccountTransasction");
+
                     b.Navigation("HeadLeaf");
+                });
+
+            modelBuilder.Entity("Pos.Model.AccountsReportSetting", b =>
+                {
+                    b.Navigation("accountsReportSettingDetails");
                 });
 #pragma warning restore 612, 618
         }

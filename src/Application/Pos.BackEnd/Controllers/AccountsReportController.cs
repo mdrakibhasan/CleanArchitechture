@@ -21,7 +21,6 @@ namespace Pos.BackEnd.Controllers
         }
 
 
-
         [HttpGet]
         [Route("TrialBalance")]
         [ProducesResponseType(200)]
@@ -32,7 +31,7 @@ namespace Pos.BackEnd.Controllers
         public async Task<ActionResult<VmAccountsTrialBalanceSheet>> GetTrialBalance(int level,DateTime FromDate,DateTime EndDate)
         {
             return await _mediator.Send(new GetAccountsTrialbalance(level, FromDate, EndDate));
-        }
+        }    
        
     }
 }

@@ -11,5 +11,6 @@ namespace Pos.Model
         public string SizeName
         {
             get; set;
-        }    }
+        }
+    }
 }

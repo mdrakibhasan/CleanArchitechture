@@ -14,5 +14,6 @@ namespace Pos.Repository.IRepository
         Task<VmAccountsTrialBalanceSheet> GetTrialBalance(int Level, DateTime FromDate, DateTime ToDate);
         Task<List<VmAccountLadger>> GetAccountsLadger(int AccountsHeadId, DateTime FromDate, DateTime ToDate);
         Task<VmAccountsHead> GetAccountsLadgerByRootId(int AccountsHeadId, DateTime FromDate, DateTime ToDate);
+        Task<VmAccountsReportSetting> GetAccountsReportSettingsReport(int ReportSettingId, DateTime FromDate, DateTime ToDate);
     }
 }

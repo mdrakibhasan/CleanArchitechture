@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Pos.Infrustructure;
-using Pos.Infrustructure.Migrations;
 using Pos.Repository.IRepository;
 using Pos.Service.Model;
 using System;
@@ -388,6 +387,64 @@ namespace Pos.Repository.Repository
                 }
             }
             return aVmAccountsHead.vmAccountLadgers;
+        }
+
+        public async Task<VmAccountsReportSetting> GetAccountsReportSettingsReport(int ReportSettingId, DateTime FromDate, DateTime ToDate)
+        {
+            var data= await _dbContext.AccountsReportSettings.Include(a => a.accountsReportSettingDetails).SingleOrDefaultAsync(a=>a.Id==ReportSettingId);
+
+            if(data!=null)
+            {
+                var _vmAccSetting= _mapper.Map<VmAccountsReportSetting>(data);
+                if (_vmAccSetting.accountsReportSettingDetails.Count>0)
+                {
+                    foreach (var dr in _vmAccSetting.accountsReportSettingDetails.OrderBy(a=>a.LineNo))
+                    {
+                        if(dr.HeadType=="D" && dr.AccountsHeadId!=null)
+                        {
+                            var accladger = await GetAccountsLadgerByRootId(dr.AccountsHeadId??0, FromDate, ToDate);
+                            dr.DevitedAmount = accladger.vmAccountLadgers.Sum(a => a.DebitedAmount);
+                            dr.CreditedAmount = accladger.vmAccountLadgers.Sum(a => a.CreditedAmount);
+                            dr.Balance = dr.DevitedAmount- dr.CreditedAmount;
+                        }
+                        if(dr.HeadType=="F")
+                        {
+                            string[] linelist = dr.TotalLineNoList.Split(',');
+                            if (dr.TotalType == "Add" && linelist.Length>0)
+                            {
+                                dr.DevitedAmount = 0;
+                                dr.CreditedAmount = 0;
+                                for (int i = 0; i < linelist.Length; i++)
+                                {
+                                    dr.DevitedAmount += _vmAccSetting.accountsReportSettingDetails.Where(a => a.LineNo == Convert.ToUInt32(linelist[i])).Sum(a => a.DevitedAmount);
+                                    dr.CreditedAmount += _vmAccSetting.accountsReportSettingDetails.Where(a => a.LineNo == Convert.ToUInt32(linelist[i])).Sum(a => a.CreditedAmount);
+                                }
+                                dr.Balance = dr.DevitedAmount - dr.CreditedAmount;
+                            }
+                            if (dr.TotalType == "Diff" && linelist.Length > 1)
+                            {
+                                dr.DevitedAmount = 0;
+                                dr.CreditedAmount = 0;
+                                
+                                dr.DevitedAmount += _vmAccSetting.accountsReportSettingDetails.Where(a => a.LineNo == Convert.ToUInt32(linelist[0])).Sum(a => a.DevitedAmount);
+                                dr.CreditedAmount += _vmAccSetting.accountsReportSettingDetails.Where(a => a.LineNo == Convert.ToUInt32(linelist[0])).Sum(a => a.CreditedAmount);
+                                dr.DevitedAmount -= _vmAccSetting.accountsReportSettingDetails.Where(a => a.LineNo == Convert.ToUInt32(linelist[1])).Sum(a => a.DevitedAmount);
+                                dr.CreditedAmount -= _vmAccSetting.accountsReportSettingDetails.Where(a => a.LineNo == Convert.ToUInt32(linelist[1])).Sum(a => a.CreditedAmount);
+
+                                dr.Balance = dr.DevitedAmount - dr.CreditedAmount;
+                            }
+
+                        }
+
+                    }
+                }
+                return _vmAccSetting;
+
+            }
+
+
+
+            return new VmAccountsReportSetting();
         }
     }
 }

@@ -1,0 +1,27 @@
+Accounts/ COA
+Capital 
+Expanse
+Loan
+Libalaties 
+Trial balance.
+Balance sheet
+Bank book 
+Day book
+Cash book
+Investment 
+ 
+Operation 
+Order Place (Order Number, Supplier,)
+Local purchase (for BD Amount/Currency)
+Packing List 
+Air Shipment (Shipment No) with Total previous Coast
+Damage Item Entry
+CNF Coast (Foreign Received with Foreign Currency)
+Foreign All Cost (With Foreign Currency)
+Sales (Order Wise /Shipment Wise with foreign Currency)
+Sales Payment Received
+Bank Adjustment (With Shipment no)
+Party Payment 
+Party Due
+Bank Loan Payment
+Investment

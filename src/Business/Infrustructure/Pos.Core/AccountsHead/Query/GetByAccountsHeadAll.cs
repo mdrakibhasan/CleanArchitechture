@@ -29,13 +29,7 @@ namespace Pos.Core.Query
         public async Task<IEnumerable<VmAccountsHead>> Handle(GetByAccountsHeadAll request, CancellationToken cancellationToken)
 		{
 
-            var data = await _sateRepository.GetAllAsyncd(
-                    x => x.Id==x.Id,
-                    orderBy: null, // Provide your orderBy function if needed
-                    includes: new Expression<Func<Model.AccountsHead, object>>[]
-                    {
-                        x=> x.HeadLeaf
-                    });
+            var data = await _sateRepository.GetAccountsType();
 
            return data;
 

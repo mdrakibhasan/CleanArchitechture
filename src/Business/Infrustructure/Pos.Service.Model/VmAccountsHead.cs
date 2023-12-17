@@ -21,7 +21,6 @@ namespace Pos.Service.Model
         public decimal? OpeningBal { get; set; }
         public int? RootId { get; set; }
         public string RootName { get; set; }
-        public VmAccountsHead Root { get; set; }
         public string Code { get; set; }
         public int? CompanyId { get; set; }
         public int AccountsHeadTypeId { get; set; }

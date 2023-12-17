@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Pos.Infrustructure.Migrations;
 
 namespace Pos.Repository.Repository
 {
@@ -21,19 +20,20 @@ namespace Pos.Repository.Repository
     {
         private readonly IMapper _mapper;
         private readonly PosDbContext _dbContext;
-       
         public AccountsHeadRepository(IMapper mapper, PosDbContext dbContext) : base(mapper, dbContext)
         {
-            _dbContext = dbContext;
             _mapper = mapper;
+            _dbContext = dbContext;
         }  
         public async Task<IEnumerable<VmAccountsHead>> GetAccountsType()
         {
-
+       //     var Data =  DbSet
+       //.Include(i => i.HeadLeaf).Where(a => a.RootId == null)
+       //.AsAsyncEnumerable();
             var Data =  _dbContext.AccountsHeads.Include(a => a.HeadLeaf).Where(a=>a.RootId==null).AsAsyncEnumerable();
-            var   _vmAccountsHeads = _mapper.Map<IEnumerable<VmAccountsHead>>(Data);
+            var _vmAccountsHeads = _mapper.Map<IEnumerable<VmAccountsHead>>(Data);
             foreach (var data in _vmAccountsHeads)
-            {     
+            {
                 if (data.RootLeaf != "L")
                 {
                     data.HeadLeaf = await GetAccountsTypeLeafList(data);

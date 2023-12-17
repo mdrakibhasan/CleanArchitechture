@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Pos.Infrustructure;
-using Pos.Infrustructure.Migrations;
 using Pos.Model;
 using Pos.Repository.IRepository;
 using Pos.Service.Model;

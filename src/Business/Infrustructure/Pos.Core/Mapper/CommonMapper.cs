@@ -25,6 +25,8 @@ namespace Pos.Core.Mapper
             CreateMap<VmAccountsHead, Model.AccountsHead>().ReverseMap();
             CreateMap<VmAccountTransactionMst, Model.AccountTransactionMst>().ReverseMap();
             CreateMap<VmAccountTransactionDtl, Model.AccountTransactionDtl>().ReverseMap();
+            CreateMap<VmAccountsReportSettingDetails, Model.AccountsReportSettingDetails>().ReverseMap();
+            CreateMap<VmAccountsReportSetting, Model.AccountsReportSetting>().ReverseMap();
         }
     }
 }
