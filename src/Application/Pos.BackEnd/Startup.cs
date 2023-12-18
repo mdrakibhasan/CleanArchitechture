@@ -54,7 +54,15 @@ namespace Pos.BackEnd
 
             app.UseRouting();
 
+
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials());
 
             app.UseEndpoints(endpoints =>
             {
