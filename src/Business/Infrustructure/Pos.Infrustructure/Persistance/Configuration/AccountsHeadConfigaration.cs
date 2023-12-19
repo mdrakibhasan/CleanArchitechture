@@ -18,6 +18,7 @@ namespace Pos.Infrustructure.Persistance.Configuration
             builder.HasKey(x => x.Id);
             builder.Property(a => a.RootLeaf).IsRequired();
             builder.Property(a => a.Code).IsRequired();
+            builder.HasIndex(a => a.Code).IsUnique();
             builder.Property(a => a.HeadName).IsRequired();
             builder.Property(a => a.HeadType).IsRequired();
             builder.Property(a => a.AccountsHeadTypeId).IsRequired();

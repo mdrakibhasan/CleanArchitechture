@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Pos.Core.AccountsHead.Command;
+using Pos.Core.AccountsHead.Query;
 using Pos.Core.Command;
 using Pos.Core.Query;
 using Pos.Service.Model;
@@ -45,6 +46,19 @@ namespace Pos.BackEnd.Controllers
             var gg = await _mediator.Send(new GetByAccountsHeadAll());
             return gg;
         }
+        [Route("GetOnlyRoot")]
+        [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
+        public async Task<IEnumerable<VmAccountsHead>> GetAllForParentDropdown()
+        {
+            var gg = await _mediator.Send(new GEtAccountsHeadOnlyParent());
+            return gg;
+        }
+
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]

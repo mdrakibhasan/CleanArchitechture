@@ -12,5 +12,7 @@ namespace Pos.Repository.IRepository
     public interface IAccountsHeadRepository : IRepository<AccountsHead, VmAccountsHead, int>
     {
         Task<IEnumerable<VmAccountsHead>> GetAccountsType();
+        Task<IEnumerable<VmAccountsHead>> GetAccountsTypeOnlyRoot();
+        Task<bool> GetAccountsCodeExist(string code, int? id);
     }
 }

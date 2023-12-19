@@ -35,6 +35,11 @@ namespace Pos.Core.Command
                 throw new ValidationException(validation.Errors);
             }
             
+           /* if( await _Repository.GetAccountsCodeExist(request.aVmAccountsHead.Code,null))
+            {
+                return new { StatusCode = 402, Message = "Invalid Input Date" };
+
+            }*/
             var result = await _Repository.Add(_mapper.Map<Model.AccountsHead>(request.aVmAccountsHead));
            
             return result;
@@ -49,6 +54,7 @@ namespace Pos.Core.Command
             RuleFor(x => x.aVmAccountsHead.AccountsHeadTypeId).NotEmpty().WithMessage("Accounts Type is Requrid .");
             RuleFor(x => x.aVmAccountsHead.HeadType).NotEmpty().WithMessage("Accounts Head Type is Requrid .");
             RuleFor(x => x.aVmAccountsHead.Code).NotEmpty().WithMessage("Accounts Code is Requrid .");
+
         }
     }
 }

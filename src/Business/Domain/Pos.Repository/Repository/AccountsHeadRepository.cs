@@ -24,7 +24,28 @@ namespace Pos.Repository.Repository
         {
             _mapper = mapper;
             _dbContext = dbContext;
-        }  
+        }
+
+        public async Task<IEnumerable<VmAccountsHead>> GetAccountsTypeOnlyRoot()
+        {
+            //     var Data =  DbSet
+            //.Include(i => i.HeadLeaf).Where(a => a.RootId == null)
+            //.AsAsyncEnumerable();
+            var Data = _dbContext.AccountsHeads.Where(a => a.RootLeaf == "R").AsAsyncEnumerable();
+            var _vmAccountsHeads = _mapper.Map<IEnumerable<VmAccountsHead>>(Data);
+            
+            return _vmAccountsHeads;
+        }
+        public async Task<bool> GetAccountsCodeExist(string code ,int? id)
+        {
+            //     var Data =  DbSet
+            //.Include(i => i.HeadLeaf).Where(a => a.RootId == null)
+            //.AsAsyncEnumerable();
+            var Data = await _dbContext.AccountsHeads.AnyAsync(a => a.Code == code && (id==0 || id==null || a.Id!= id));
+            
+            return Data;
+        }
+
         public async Task<IEnumerable<VmAccountsHead>> GetAccountsType()
         {
        //     var Data =  DbSet
