@@ -14,6 +14,7 @@ namespace Pos.Service.Model
         public int Id { get; set; }
         public int AccountsReportSettingId { get; set; }
         public string HeadingName { get; set; }
+        public string AccountsType { get; set; }
         public string HeadType { get; set; }
         public string TotalType { get; set; }
         public string TotalLineNoList { get; set; }
