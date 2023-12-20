@@ -58,6 +58,18 @@ namespace Pos.BackEnd.Controllers
             var gg = await _mediator.Send(new GEtAccountsHeadOnlyParent());
             return gg;
         }
+        [Route("GetOnlyChield")]
+        [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
+        public async Task<IEnumerable<VmAccountsHead>> GetAllForChieldDropdown()
+        {
+            var gg = await _mediator.Send(new GetAccountHeadOnlyChiled());
+            return gg;
+        }
 
         [HttpPost]
         [ProducesResponseType(200)]

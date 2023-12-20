@@ -13,6 +13,7 @@ namespace Pos.Repository.IRepository
     {
         Task<IEnumerable<VmAccountsHead>> GetAccountsType();
         Task<IEnumerable<VmAccountsHead>> GetAccountsTypeOnlyRoot();
+        Task<IEnumerable<VmAccountsHead>> GetAccountsTypeOnlyChield();
         Task<bool> GetAccountsCodeExist(string code, int? id);
     }
 }

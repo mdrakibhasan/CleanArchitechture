@@ -36,6 +36,16 @@ namespace Pos.Repository.Repository
             
             return _vmAccountsHeads;
         }
+        public async Task<IEnumerable<VmAccountsHead>> GetAccountsTypeOnlyChield()
+        {
+            //     var Data =  DbSet
+            //.Include(i => i.HeadLeaf).Where(a => a.RootId == null)
+            //.AsAsyncEnumerable();
+            var Data = _dbContext.AccountsHeads.Where(a => a.RootLeaf == "L").AsAsyncEnumerable();
+            var _vmAccountsHeads = _mapper.Map<IEnumerable<VmAccountsHead>>(Data);
+
+            return _vmAccountsHeads;
+        }
         public async Task<bool> GetAccountsCodeExist(string code ,int? id)
         {
             //     var Data =  DbSet
