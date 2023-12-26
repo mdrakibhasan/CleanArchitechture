@@ -19,6 +19,7 @@ namespace Pos.Model
         public DateTime? OpeningDate { get; set; }
         public decimal? OpeningBal { get; set; }
         public int? CompanyId { get; set; }
+        public bool? isCashOrBank { get; set; }
         public int? RootId { get; set; }
         [JsonIgnore]
         public AccountsHead Root { get; set; }
