@@ -20,7 +20,6 @@ namespace Pos.BackEnd.Controllers
 
         }
 
-
         
         [HttpGet("{id}", Name = "GetById")]
         [ProducesResponseType(200)]
