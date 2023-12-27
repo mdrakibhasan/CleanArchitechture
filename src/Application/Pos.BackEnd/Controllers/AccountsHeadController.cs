@@ -46,6 +46,18 @@ namespace Pos.BackEnd.Controllers
             var gg = await _mediator.Send(new GetByAccountsHeadAll());
             return gg;
         }
+        [Route("GetAccountsTreeList")]
+        [HttpGet]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(403)]
+        public async Task<IEnumerable<VmAccountsHead>> GetAccountsTreeList()
+        {
+            var gg = await _mediator.Send(new GetAccountsTreeList());
+            return gg;
+        }
         [Route("GetOnlyRoot")]
         [HttpGet]
         [ProducesResponseType(200)]

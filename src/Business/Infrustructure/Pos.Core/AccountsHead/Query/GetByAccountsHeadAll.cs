@@ -29,9 +29,9 @@ namespace Pos.Core.Query
         public async Task<IEnumerable<VmAccountsHead>> Handle(GetByAccountsHeadAll request, CancellationToken cancellationToken)
 		{
 
-            var data = await _sateRepository.GetAccountsType();
+            var data = await _sateRepository.GetList();
 
-           return data;
+            return data;
 
            // var result = await _sateRepository.GetPageAsync(0, 10, p => p.Where(a => a.RootId == null).OrderBy(a => a.Id), d => d.Root);
 
